@@ -58,6 +58,31 @@ const parseCommandText = (text: string) => {
   };
 };
 
+const isAllowedCommand = (commandName: string): boolean => {
+  if (commandName.toLowerCase() === 'operate-from-autohotkey.executecommand') {
+    return false;
+  }
+
+  const config = vscode.workspace.getConfiguration('operate-from-autohotkey');
+  const allowCommands = config.has('allowCommands') ? config.get('allowCommands') as string[] : [];
+  for (const allowCommand of allowCommands) {
+    if (allowCommand === '*') {
+      return true;
+    }
+
+    if (allowCommand.endsWith('*')) {
+      const allowCommandWithoutAsterisk = allowCommand.slice(0, -1).toLowerCase();
+      if (commandName.toLowerCase().startsWith(allowCommandWithoutAsterisk)) {
+        return true;
+      }
+      else if (commandName.toLowerCase() === allowCommand.toLowerCase()) {
+        return true;
+      }
+    }
+  }
+  return false;
+};
+
 export const Commands = {
   async 'operate-from-autohotkey.executeCommand'(): Promise<void> {
     const commandNames = await vscode.env.clipboard.readText();
@@ -68,6 +93,11 @@ export const Commands = {
     for await (const commandName of commandNames.split(',')) {
       const parsedCommand = parseCommandText(commandName.trim());
       if (!parsedCommand) {
+        continue;
+      }
+
+      // Do not execute commands that are not allowed
+      if (!isAllowedCommand(parsedCommand.name)) {
         continue;
       }
 

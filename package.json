@@ -35,6 +35,15 @@
           "type": "string",
           "description": "Absolute path to Acc.ahk. This library is required to use some commands. See the README for details.",
           "default": "C:\\Program Files\\AutoHotkey\\lib\\Acc.ahk"
+        },
+        "operate-from-autohotkey.allowCommands": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "operate-from-autohotkey.*"
+          ]
         }
       }
     },

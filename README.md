@@ -81,6 +81,13 @@ The following settings will be added.
     <td>description</td>
 </tr>
 <tr>
+    <td>operate-from-autohotkey.allowCommands</td>
+    <td>
+        Allowed commands. Can be used as a wildcard by adding a trailing <code>*</code>.<br>
+        <b>Default:</b> <code>[ "operate-from-autohotkey.*" ]</code>
+    </td>
+</tr>
+<tr>
     <td>operate-from-autohotkey.externalLibrary.acc</td>
     <td>
         The absolute path of the AutoHotkey external library required by some commands. See details <a href="#about-accahk">here</a>.<br>
