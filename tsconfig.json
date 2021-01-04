@@ -1,0 +1,37 @@
+{
+	"compilerOptions": {
+		"target": "es6",
+		"module": "commonjs",
+        "lib": [
+			"ESNext",
+			"DOM"
+		],
+		"types": [
+			"node"
+		],
+
+		"outDir": "build",
+		"sourceMap": true,
+		"strict": true,
+		"declaration": true,
+		"skipLibCheck": true,
+		"inlineSourceMap": false,
+		"noImplicitAny": false,
+		"noImplicitThis": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": false,
+		"preserveConstEnums": true,
+		"removeComments": false,
+		"newLine": "crlf"
+	},
+	"include": [
+		"gulpfile.ts",
+		"src/**/*"
+	],
+	"exclude": [
+		"node_modules"
+	],
+	"ts-node": {
+		"transpileOnly": true
+	}
+}

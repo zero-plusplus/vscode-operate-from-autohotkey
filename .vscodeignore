@@ -1,0 +1,13 @@
+.vscode/
+demo/
+node_modules/
+src/
+test/
+.eslintignore
+.eslintrc.js
+.gitignore
+.mocharc.js
+gulpfile.ts
+tsconfig.json
+webpack.*.ts
+yarn-error.log

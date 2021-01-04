@@ -1,0 +1,135 @@
+{
+  "name": "vscode-operate-from-autohotkey",
+  "version": "1.0.0",
+  "repository": "https://github.com/zero-plusplus/vscode-operate-from-autohotkey.git",
+  "bugs": "https://github.com/zero-plusplus/vscode-operate-from-autohotkey/issues",
+  "author": "zero-plusplus <git@zero-plusplus.com>",
+  "license": "MIT",
+  "main": "./build/src/extension",
+  "scripts": {
+    "build": "gulp build",
+    "watch": "gulp watch",
+    "clean": "gulp clean",
+    "lint": "gulp lint",
+    "package": "gulp packaging",
+    "vscode:prepublish": "gulp bundleWithoutClean"
+  },
+  "publisher": "zero-plusplus",
+  "keywords": [
+    "autohotkey"
+  ],
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "engines": {
+    "vscode": "^1.45.0"
+  },
+  "icon": "image/icon.png",
+  "contributes": {
+    "configuration": {
+      "properties": {
+        "operate-from-autohotkey.externalLibrary.acc": {
+          "type": "string",
+          "description": "Absolute path to Acc.ahk. This library is required to use some commands. See the README for details.",
+          "default": "C:\\Program Files\\AutoHotkey\\lib\\Acc.ahk"
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "operate-from-autohotkey.executeCommand",
+        "title": "Executes a command with the contents of the clipboard."
+      },
+      {
+        "command": "operate-from-autohotkey.copy.context.caret.coordinates",
+        "title": "Copy the coordinates (1-base) of the caret with respect to the screen in `x,y` format."
+      },
+      {
+        "command": "operate-from-autohotkey.copy.context.caret.coordinates.x",
+        "title": "Copy the x-coordinates (1-base) of the caret with respect to the screen."
+      },
+      {
+        "command": "operate-from-autohotkey.copy.context.caret.coordinates.y",
+        "title": "Copy the y-coordinates (1-base) of the caret with respect to the screen."
+      },
+      {
+        "command": "operate-from-autohotkey.copy.context.caret.position",
+        "title": "Copy the position (1-base) of the current caret in `lineNumber:columnNumber` format."
+      },
+      {
+        "command": "operate-from-autohotkey.copy.context.caret.position.line",
+        "title": "Copy the line number (1-base) of the current caret."
+      },
+      {
+        "command": "operate-from-autohotkey.copy.context.caret.position.column",
+        "title": "Copy the column number (1-base) of the current caret."
+      },
+      {
+        "command": "operate-from-autohotkey.copy.context.file",
+        "title": "Copy the currently opened file in `filePath:lineNumber:columnNumber` format."
+      },
+      {
+        "command": "operate-from-autohotkey.copy.context.file.path",
+        "title": "Copy the currently opened file path."
+      },
+      {
+        "command": "operate-from-autohotkey.copy.context.file.length",
+        "title": "Copy the currently opened file length."
+      },
+      {
+        "command": "operate-from-autohotkey.copy.context.file.eol",
+        "title": "Copy the currently opened End Of Line (EOL) of the file. Value that can be gotten are \"`n\" or \"`r`n\"."
+      },
+      {
+        "command": "operate-from-autohotkey.copy.context.json",
+        "title": "Copy context information in JSON format."
+      },
+      {
+        "command": "operate-from-autohotkey.copy.context.json.pretty",
+        "title": "Copy context information in human-readable JSON format."
+      },
+      {
+        "command": "operate-from-autohotkey.copy.context.flattenJson",
+        "title": "Copy context information in flatten JSON format."
+      },
+      {
+        "command": "operate-from-autohotkey.copy.context.flattenJson.pretty",
+        "title": "Copy context information in flatten human-readable JSON format."
+      }
+    ],
+    "keybindings": [
+      {
+        "key": "shift+ctrl+alt+f12",
+        "command": "operate-from-autohotkey.executeCommand"
+      }
+    ]
+  },
+  "dependencies": {
+    "objnest": "^5.1.0",
+    "underscore": "^1.12.0"
+  },
+  "devDependencies": {
+    "@types/gulp": "^4.0.7",
+    "@types/node": "^14.14.7",
+    "@types/underscore": "^1.10.24",
+    "@types/vscode": "^1.45.0",
+    "@typescript-eslint/eslint-plugin": "^4.7.0",
+    "@typescript-eslint/parser": "^4.7.0",
+    "@zero-plusplus/eslint-my-rules": "^1.0.22",
+    "del": "^6.0.0",
+    "eslint": "^7.13.0",
+    "fork-ts-checker-webpack-plugin": "^6.0.8",
+    "gulp": "^4.0.2",
+    "gulp-run-command": "^0.0.10",
+    "source-map-support": "^0.5.19",
+    "ts-loader": "^8.0.13",
+    "ts-node": "^9.0.0",
+    "types-tsconfig": "^1.2.0",
+    "typescript": "^4.0.5",
+    "webpack": "^5.11.1",
+    "webpack-merge": "^5.7.3"
+  }
+}
