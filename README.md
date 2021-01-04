@@ -1,9 +1,9 @@
 # TOC
-* [Overview](#Overview)
-* [Installation](#Installation)
-* [Using](#Using)
-* [Commands](#Commands)
-* [Development support](#Development-support)
+* [Overview](#overview)
+* [Installation](#installation)
+* [Using](#using)
+* [Commands](#commands)
+* [Development support](#development-support)
 
 
 # Before reading
@@ -41,7 +41,7 @@ Acc.ahk is required when using some commands that retrieve information not provi
 
 
 # Using
-The library described in [Installation](#Installation) defines the `ExecuteVsCodeCommand` function. The usage is the same for both AutoHotkey V1 and V2.
+The library described in [Installation](#installation) defines the `ExecuteVsCodeCommand` function. The usage is the same for both AutoHotkey V1 and V2.
 
 It is very easy to use, just pass the command name as shown in the following.
 ```ahk
@@ -71,6 +71,23 @@ ExecuteVsCodeCommand("
     cursorDown
 )")
 ```
+
+# About settings.json
+The following settings will be added.
+
+<table>
+<tr>
+    <td>name</td>
+    <td>description</td>
+</tr>
+<tr>
+    <td>operate-from-autohotkey.externalLibrary.acc</td>
+    <td>
+        The absolute path of the AutoHotkey external library required by some commands. See details <a href="#about-accahk">here</a>.<br>
+        Default: <code>C:\Program Files\AutoHotkey\lib\Acc.ahk</code>
+    </td>
+</tr>
+</table>
 
 # Commands
 The following commands will be added.
