@@ -54,19 +54,19 @@
       },
       {
         "command": "operate-from-autohotkey.copy.context.caret.coordinates",
-        "title": "Copy the coordinates (1-base) of the caret with respect to the screen in `x,y` format."
+        "title": "Copy the coordinates of the caret with respect to the screen in \"x,y\" format."
       },
       {
         "command": "operate-from-autohotkey.copy.context.caret.coordinates.x",
-        "title": "Copy the x-coordinates (1-base) of the caret with respect to the screen."
+        "title": "Copy the x-coordinates of the caret with respect to the screen."
       },
       {
         "command": "operate-from-autohotkey.copy.context.caret.coordinates.y",
-        "title": "Copy the y-coordinates (1-base) of the caret with respect to the screen."
+        "title": "Copy the y-coordinates of the caret with respect to the screen."
       },
       {
         "command": "operate-from-autohotkey.copy.context.caret.position",
-        "title": "Copy the position (1-base) of the current caret in `lineNumber:columnNumber` format."
+        "title": "Copy the position (1-base) of the current caret in \"lineNumber:columnNumber\" format."
       },
       {
         "command": "operate-from-autohotkey.copy.context.caret.position.line",
@@ -78,7 +78,7 @@
       },
       {
         "command": "operate-from-autohotkey.copy.context.file",
-        "title": "Copy the currently opened file in `filePath:lineNumber:columnNumber` format."
+        "title": "Copy the currently opened file in \"filePath:lineNumber:columnNumber\" format."
       },
       {
         "command": "operate-from-autohotkey.copy.context.file.path",
