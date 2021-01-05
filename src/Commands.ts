@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import { range } from 'underscore';
 import { flatten } from 'objnest';
-import { getAccPath, getCaretCoordinates } from './lib/Acc';
+import { getAccPath, getCaretCoordinates } from './lib/acc';
 import { ContextMonitor } from './lib/ContextMonitor';
 
 const contextMonitor = new ContextMonitor().start();
