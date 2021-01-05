@@ -3,7 +3,7 @@ import * as path from 'path';
 import ahkEval from './ahkEval';
 import { fileExists } from '../util';
 
-interface Location {
+interface Coordinates {
   x: number;
   y: number;
 }
@@ -19,7 +19,7 @@ export const getAccPath = async(): Promise<string | null> => {
   });
 };
 
-export const getCaretCoordinates = async(): Promise<Location | null> => {
+export const getCaretCoordinates = async(): Promise<Coordinates | null> => {
   const accPath = await getAccPath() ?? '';
   if (!await fileExists(accPath)) {
     throw Error(`\`Acc.ahk\` cannot be found. ${accPath ? ` Specified: \`${accPath}\`` : `Set up \`operate-from-autohotkey.externalLibrary.acc\``}`);
@@ -35,8 +35,8 @@ export const getCaretCoordinates = async(): Promise<Location | null> => {
 
   const result = await ahkEval(ahkCode);
   if (result) {
-    const caretLocation = JSON.parse(result) as Location;
-    return caretLocation;
+    const caretCoordinates = JSON.parse(result) as Coordinates;
+    return caretCoordinates;
   }
   return null;
 };

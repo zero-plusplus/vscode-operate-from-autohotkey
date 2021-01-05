@@ -14,7 +14,7 @@ const getContexts = async() => {
         line: contextMonitor.caret.line,
         column: contextMonitor.caret.column,
       },
-      location: {
+      coordinates: {
         x: -1,
         y: -1,
       },
@@ -29,7 +29,7 @@ const getContexts = async() => {
   };
   if (await getAccPath()) {
     const coordinates = await getCaretCoordinates();
-    contexts.caret.location = {
+    contexts.caret.coordinates = {
       x: coordinates?.x ?? -1,
       y: coordinates?.y ?? -1,
     };
