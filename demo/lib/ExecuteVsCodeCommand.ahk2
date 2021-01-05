@@ -13,7 +13,7 @@
  *
  *  If you want to execute more than one command, separate them with `,`, such as `"command1, command2"`. Any whitespace before or after will be ignored.
  *  Also, If you want to execute a command multiple times, specify such as `"commandName:N"`, where `N` is an arbitrary integer.
- * @param {number} [timeout_ms := 1000] - Timeout (in milliseconds). Basically, there is no need to set this.
+ * @param {number|false} [timeout_ms := 1000] - Timeout (in milliseconds). Specify `false` to disable the timeout. For some commands that prompt for user input, it is recommended to specify `false`.
  * @return {string} - The return value of the command (string only). Otherwise, empty string.
  * @example
  *  ExecuteVsCodeCommand("cursorRight")             ; Move the cursor to the right
@@ -33,8 +33,8 @@ ExecuteVsCodeCommand(commandName, timeout_ms := 1000) {
     }
 
     elapsedTime := A_TickCount - startTime
-    if (timeout_ms < elapsedTime) {
-      throw Exception("Timeout. " commandName " was executed.")
+    if (timeout_ms != false && timeout_ms < elapsedTime) {
+      throw Exception("Timeout. '" commandName "' was executed. If you want to disable the timeout, specify false as the second parameter of '" A_ThisFunc "'.")
     }
     Sleep(1)
   }
