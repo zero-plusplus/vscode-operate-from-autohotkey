@@ -27,13 +27,21 @@ const getContexts = async() => {
       eol: contextMonitor.fileInfo.eol,
     },
   };
-  if (await getAccPath()) {
-    const coordinates = await getCaretCoordinates();
-    contexts.caret.coordinates = {
-      x: coordinates?.x ?? -1,
-      y: coordinates?.y ?? -1,
-    };
+
+  try {
+    if (await getAccPath()) {
+      const coordinates = await getCaretCoordinates();
+      if (coordinates) {
+        contexts.caret.coordinates = {
+          x: coordinates.x,
+          y: coordinates.y,
+        };
+      }
+    }
   }
+  catch (error: unknown) {
+  }
+
   return contexts;
 };
 
