@@ -7,7 +7,7 @@
  * **Note: To use this function, you need to have [vscode-operate-from-autohotkey](https://github.com/zero-plusplus/vscode-operate-from-autohotkey) installed on your [VSCode](https://code.visualstudio.com/).**
  * **Also, this function uses the clipboard that in order to cooperate with VSCode. Therefore, if you rewrite the clipboard before or after using this, it may not work correctly.**
  *
- * Execute the VSCode command.
+ * Execute the VSCode command. If you are using a version lower than v2.0-a110, please rename A_Clipboard to Clipboard.
  * @param {string} commandName -
  *  A string to indicate vscode's command name. You can check it in VSCode's Keyboard Shortcuts (`Ctrl+K`, `Ctrl+S`).
  *
