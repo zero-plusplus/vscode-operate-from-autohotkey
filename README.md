@@ -11,7 +11,7 @@ Please read the following first.
 * This document has been translated from Japanese to English using [DeepL Translate](https://www.deepl.com/translator)
 * **This extension is for AutoHotkey users who use VSCode**
 * **Currently no pull requests are being accepted**
-* Bug reports and feature requests are accepted [here](https://github.com/zero-plusplus/vscode-operate-from-autohotkey/issues). I'll respond to you immediately or by the next day, so please feel free to do so.
+* Bug reports and feature requests are accepted [here](https://github.com/zero-plusplus/vscode-operate-from-autohotkey/issues). I'll respond to you immediately or by the next day, so please feel free to do so
 
 
 # News
