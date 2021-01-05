@@ -33,7 +33,6 @@ const getContexts = async() => {
       x: coordinates?.x ?? -1,
       y: coordinates?.y ?? -1,
     };
-    return contexts;
   }
   return contexts;
 };
