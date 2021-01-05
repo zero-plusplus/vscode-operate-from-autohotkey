@@ -27,8 +27,6 @@ Therefore, it should be possible to use it not only with AutoHotkey, but also wi
 
 The biggest advantage of this extension would be the ability to directly execute commands that do not have a shortcut key set. Setting shortcut keys can be very tedious, as they must not conflict with other keys. Moreover, there are a surprisingly large number of commands for which no shortcuts have been set.
 
-**Note that only allowed commands (by default, only those provided by this extension) will be executed.**
-
 
 # Installation
 1. Install [AutoHotkey](https://www.autohotkey.com/)
@@ -41,9 +39,6 @@ Acc.ahk is required when using some commands that retrieve information not provi
 
 
 # Using
-As explained in the [Overview](#overview), the commands that can be executed are limited to those provided by this extension. This is for security reasons and to prevent malfunctions.
-If you don't mind it, please set `[ "*" ]` in [operate-from-autohotkey.allowCommands](#settings). You can allow all commands to be executed.
-
 The library described in [Installation](#installation) defines the `ExecuteVsCodeCommand` function. The usage is the same for both AutoHotkey V1 and V2.
 
 It is very easy to use, just pass the command name as shown in the following.
@@ -80,14 +75,15 @@ The following settings will be added in [settings.json](https://code.visualstudi
 
 <table>
 <tr>
-    <td>name</td>
-    <td>description</td>
+    <td><i><b>Name</b></i></td>
+    <td><i><b>Description</b></i></td>
 </tr>
 <tr>
     <td>operate-from-autohotkey.allowCommands</td>
     <td>
-        Allowed commands. Can be used as a wildcard by adding a trailing <code>*</code>. To allow all commands, specify <code>[ "*" ]</code>.<br>
-        <b>Default:</b> <code>[ "operate-from-autohotkey.*" ]</code>
+        Allowed command names. Can be used as a wildcard by adding a trailing <code>*</code>. By default, all commands are allowed.<br /><br />
+        Normally, you don't need to set this, but if you are using a script created by someone else, you can improve security by setting it.<br />
+        <b>Default:</b> <code>[ "*" ]</code>
     </td>
 </tr>
 <tr>
