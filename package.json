@@ -1,5 +1,6 @@
 {
   "name": "vscode-operate-from-autohotkey",
+  "displayName": "Operate VSCode from AutoHotkey",
   "version": "1.0.0",
   "repository": "https://github.com/zero-plusplus/vscode-operate-from-autohotkey.git",
   "bugs": "https://github.com/zero-plusplus/vscode-operate-from-autohotkey/issues",
