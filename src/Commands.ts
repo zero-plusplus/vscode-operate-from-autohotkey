@@ -113,6 +113,9 @@ export const Commands = {
           await vscode.commands.executeCommand(parsedCommand.name);
 
           // Exit immediately if there are any changes to the clipboard.
+          if (parsedCommand.name.startsWith('operate-from-autohotkey.copy')) {
+            return;
+          }
           const currentClip = await vscode.env.clipboard.readText();
           if (commandNames !== currentClip) {
             return;
