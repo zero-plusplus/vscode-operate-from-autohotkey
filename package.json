@@ -31,11 +31,6 @@
   "contributes": {
     "configuration": {
       "properties": {
-        "operate-from-autohotkey.externalLibrary.acc": {
-          "type": "string",
-          "description": "Absolute path to Acc.ahk. This library is required to use some commands. See the README for details.",
-          "default": "C:\\Program Files\\AutoHotkey\\lib\\Acc.ahk"
-        },
         "operate-from-autohotkey.allowCommands": {
           "type": "array",
           "items": {
@@ -44,6 +39,16 @@
           "default": [
             "*"
           ]
+        },
+        "operate-from-autohotkey.hideError": {
+          "type": "boolean",
+          "description": "Whether to notify the user of an error when a command fails to execute.",
+          "default": false
+        },
+        "operate-from-autohotkey.externalLibrary.acc": {
+          "type": "string",
+          "description": "Absolute path to Acc.ahk. This library is required to use some commands. See the README for details.",
+          "default": "C:\\Program Files\\AutoHotkey\\lib\\Acc.ahk"
         }
       }
     },

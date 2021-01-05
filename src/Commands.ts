@@ -62,8 +62,7 @@ const isAllowedCommand = (commandName: string): boolean => {
     return false;
   }
 
-  const config = vscode.workspace.getConfiguration('operate-from-autohotkey');
-  const allowCommands = config.has('allowCommands') ? config.get('allowCommands') as string[] : [];
+  const allowCommands = vscode.workspace.getConfiguration('operate-from-autohotkey').get('allowCommands') as string[];
   for (const allowCommand of allowCommands) {
     if (allowCommand === '*') {
       return true;
@@ -114,6 +113,10 @@ export const Commands = {
       }
     }
     catch (error: unknown) {
+      const hideError = Boolean(vscode.workspace.getConfiguration('operate-from-autohotkey').get('hideError'));
+      if (!hideError) {
+        throw error;
+      }
     }
     finally {
       await vscode.env.clipboard.writeText('');

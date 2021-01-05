@@ -84,7 +84,7 @@ The following settings will be added in [settings.json](https://code.visualstudi
     <td><i><b>Description</b></i></td>
 </tr>
 <tr>
-    <td>operate-from-autohotkey.allowCommands</td>
+    <td><code>operate-from-autohotkey.allowCommands</code></td>
     <td>
         Allowed command names. Can be used as a wildcard by adding a trailing <code>*</code>. By default, all commands are allowed.<br /><br />
         Normally, you don't need to set this, but if you are using a script created by someone else, you can improve security by setting it.<br />
@@ -92,7 +92,11 @@ The following settings will be added in [settings.json](https://code.visualstudi
     </td>
 </tr>
 <tr>
-    <td>operate-from-autohotkey.externalLibrary.acc</td>
+    <td><code>operate-from-autohotkey.hideError</code></td>
+    <td>Whether to notify the user of an error when a command fails to execute.</td>
+</tr>
+<tr>
+    <td><code>operate-from-autohotkey.externalLibrary.acc</code></td>
     <td>
         The absolute path of the AutoHotkey external library required by some commands. See details <a href="#about-accahk">here</a>.<br>
         Default: <code>C:\Program Files\AutoHotkey\lib\Acc.ahk</code>
