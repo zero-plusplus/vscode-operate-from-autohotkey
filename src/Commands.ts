@@ -126,9 +126,8 @@ export const Commands = {
         throw error;
       }
     }
-    finally {
-      await vscode.env.clipboard.writeText('');
-    }
+
+    await vscode.env.clipboard.writeText('');
   },
   async 'operate-from-autohotkey.copy.context.caret.coordinates'(): Promise<void> {
     const coordinates = await getCaretCoordinates();
