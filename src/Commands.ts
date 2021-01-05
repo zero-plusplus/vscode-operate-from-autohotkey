@@ -84,36 +84,40 @@ const isAllowedCommand = (commandName: string): boolean => {
 
 export const Commands = {
   async 'operate-from-autohotkey.executeCommand'(): Promise<void> {
-    const commandNames = await vscode.env.clipboard.readText();
-    if (commandNames === '') {
-      return;
-    }
-
-    for await (const commandName of commandNames.split(',')) {
-      const parsedCommand = parseCommandText(commandName.trim());
-      if (!parsedCommand) {
-        continue;
+    try {
+      const commandNames = await vscode.env.clipboard.readText();
+      if (commandNames === '') {
+        return;
       }
 
-      // Do not execute commands that are not allowed
-      if (!isAllowedCommand(parsedCommand.name)) {
-        continue;
-      }
+      for await (const commandName of commandNames.split(',')) {
+        const parsedCommand = parseCommandText(commandName.trim());
+        if (!parsedCommand) {
+          continue;
+        }
 
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      for await (const _ of range(parsedCommand.repeatCount)) {
-        await vscode.commands.executeCommand(parsedCommand.name);
+        // Do not execute commands that are not allowed
+        if (!isAllowedCommand(parsedCommand.name)) {
+          continue;
+        }
 
-        // Exit immediately if there are any changes to the clipboard.
-        const currentClip = await vscode.env.clipboard.readText();
-        if (commandNames !== currentClip) {
-          return;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        for await (const _ of range(parsedCommand.repeatCount)) {
+          await vscode.commands.executeCommand(parsedCommand.name);
+
+          // Exit immediately if there are any changes to the clipboard.
+          const currentClip = await vscode.env.clipboard.readText();
+          if (commandNames !== currentClip) {
+            return;
+          }
         }
       }
     }
-
-    const A = 'test'; A;
-    await vscode.env.clipboard.writeText('');
+    catch (error: unknown) {
+    }
+    finally {
+      await vscode.env.clipboard.writeText('');
+    }
   },
   async 'operate-from-autohotkey.copy.context.caret.coordinates'(): Promise<void> {
     const coordinates = await getCaretCoordinates();

@@ -13,21 +13,28 @@
  *
  *  If you want to execute more than one command, separate them with `,`, such as `"command1, command2"`. Any whitespace before or after will be ignored.
  *  Also, If you want to execute a command multiple times, specify such as `"commandName:N"`, where `N` is an arbitrary integer.
+ * @param {number} [timeout_ms := 1000] - Timeout (in milliseconds). Basically, there is no need to set this.
  * @return {string} - The return value of the command (string only). Otherwise, empty string.
  * @example
  *  ExecuteVsCodeCommand("cursorRight")             ; Move the cursor to the right
  *  ExecuteVsCodeCommand("cursorRight:5")           ; Execute the same command five times
  *  ExecuteVsCodeCommand("cursorRight, cursorDown") ; Execute multiple commands
  */
-ExecuteVsCodeCommand(commandName) {
+ExecuteVsCodeCommand(commandName, timeout_ms := 1000) {
   backup := ClipboardAll()
   A_Clipboard := commandName
   SendInput("+^!{F12}")
 
   ; Wait until the return value of the command can be obtained.
+  startTime := A_TickCount
   while (true) {
     if (A_Clipboard != commandName) {
       break
+    }
+
+    elapsedTime := A_TickCount - startTime
+    if (timeout_ms < elapsedTime) {
+      throw Exception("Timeout. " commandName " was executed.")
     }
     Sleep(1)
   }

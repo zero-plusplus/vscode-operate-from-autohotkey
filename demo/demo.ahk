@@ -1,5 +1,6 @@
 ﻿#SingleInstance, Force
 
++^!0::ExecuteVsCodeCommand("NonexistentCommand")
 +^!1::ExecuteVsCodeCommand("cursorRight")
 +^!2::ExecuteVsCodeCommand("cursorRight:5")
 +^!3::ExecuteVsCodeCommand("cursorRight, cursorDown")
