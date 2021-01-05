@@ -123,6 +123,7 @@ export const Commands = {
     catch (error: unknown) {
       const hideError = Boolean(vscode.workspace.getConfiguration('operate-from-autohotkey').get('hideError'));
       if (!hideError) {
+        await vscode.env.clipboard.writeText('');
         throw error;
       }
     }
