@@ -25,7 +25,7 @@
     "onStartupFinished"
   ],
   "engines": {
-    "vscode": "^1.45.0"
+    "vscode": "^1.46.0"
   },
   "icon": "image/icon.png",
   "contributes": {
@@ -36,6 +36,7 @@
           "items": {
             "type": "string"
           },
+          "description": "Allowed command names. Can be used as a wildcard by adding a trailing \"*\". By default, all commands are allowed.",
           "default": [
             "*"
           ]
@@ -129,7 +130,7 @@
     "@types/gulp": "^4.0.7",
     "@types/node": "^14.14.7",
     "@types/underscore": "^1.10.24",
-    "@types/vscode": "^1.45.0",
+    "@types/vscode": "^1.46.0",
     "@typescript-eslint/eslint-plugin": "^4.7.0",
     "@typescript-eslint/parser": "^4.7.0",
     "@zero-plusplus/eslint-my-rules": "^1.0.22",

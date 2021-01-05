@@ -31,6 +31,8 @@ By default, all commands can be executed, but if you are concerned about securit
 
 
 # Installation
+**This extension works on VSCode 1.46.0 and above.**
+
 1. Install [AutoHotkey](https://www.autohotkey.com/). It is used to get information by some commands, so you need to install it even if you are using another automation tool
 2. Press `Ctrl + P`, type `ext install zero-plusplus.vscode-operate-from-autohotkey`
 3. Include [this library](https://github.com/zero-plusplus/vscode-operate-from-autohotkey/blob/main/demo/lib/ExecuteVsCodeCommand.ahk) in your scripts. For v2, [here](https://github.com/zero-plusplus/vscode-operate-from-autohotkey/blob/main/demo/lib/ExecuteVsCodeCommand.ahk2)
