@@ -27,23 +27,28 @@ Therefore, it should be possible to use it not only with AutoHotkey, but also wi
 
 The biggest advantage of this extension would be the ability to directly execute commands that do not have a shortcut key set. Setting shortcut keys can be very tedious, as they must not conflict with other keys. Moreover, there are a surprisingly large number of commands for which no shortcuts have been set.
 
+By default, all commands can be executed, but if you are concerned about security, you may want to set [operate-from-autohotkey.allowCommands](#settings).
+
 
 # Installation
 1. Install [AutoHotkey](https://www.autohotkey.com/)
 2. Press `Ctrl + P`, type `ext install zero-plusplus.vscode-operate-from-autohotkey`
-3. Include [this library](https://github.com/zero-plusplus/vscode-operate-from-autohotkey/demo/lib/ExecuteVsCodeCommand.ahk) in your scripts. For v2, [here](https://github.com/zero-plusplus/vscode-operate-from-autohotkey/demo/lib/ExecuteVsCodeCommand.ahk2)
+3. Include [this library](https://github.com/zero-plusplus/vscode-operate-from-autohotkey/blob/main/demo/lib/ExecuteVsCodeCommand.ahk) in your scripts. For v2, [here](https://github.com/zero-plusplus/vscode-operate-from-autohotkey/blob/main/demo/lib/ExecuteVsCodeCommand.ahk2)
 
 
 ## About Acc.ahk
 Acc.ahk is required when using some commands that retrieve information not provided by VSCode, such as caret coordinates. The original file already has a broken link and you can get a copy of it [here](https://autohotkey.com/board/topic/77303-acc-library-ahk-l-updated-09272012/page-2#post_id_528450).
 
+Then place it in the path set in [operate-from-autohotkey.externalLibrary.acc](#settings).
+
 
 # Using
-The library described in [Installation](#installation) defines the `ExecuteVsCodeCommand` function. The usage is the same for both AutoHotkey V1 and V2.
+The library described in the third of the [Installation](#installation) defines the `ExecuteVsCodeCommand` function to execute the command. The usage is the same for both AutoHotkey V1 and V2.
 
-It is very easy to use, just pass the command name as shown in the following.
+It is very easy to use, just pass the command name as shown in the following. To find out the name of the command, look [here](https://code.visualstudio.com/api/references/commands#simple-commands).
 ```ahk
-ExecuteVsCodeCommand("cursorRight") ; Move the cursor to the right
+; Move the cursor to the right
+ExecuteVsCodeCommand("cursorRight")
 ```
 
 If you want to execute multiple commands, separate them with `,(comma)`. The spaces before and after are optional.
