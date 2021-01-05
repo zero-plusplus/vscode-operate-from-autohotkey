@@ -46,22 +46,22 @@ const getContexts = async() => {
 };
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const parseCommandText = (text: string) => {
-  const match = text.match(/^(?<name>[\w.-]+)(?::(?<repeatCount>\d+))?(?:\s(?<params>.+))?$/u);
+const parseCommandText = (commandText: string) => {
+  const match = commandText.match(/^(?<name>[\w.-]+)(?::(?<repeatCount>.+))?$/u);
   if (!match?.groups) {
     return null;
   }
 
-  const { name, params } = match.groups;
-  let repeatCount = 1;
-  if (!isNaN(parseInt(match.groups.repeatCount, 10))) {
-    repeatCount = parseInt(match.groups.repeatCount, 10);
+  const repeatCount = parseInt(match.groups.repeatCount, 10);
+  if (isNaN(repeatCount)) {
+    return {
+      name: commandText,
+      repeatCount: 1,
+    };
   }
-
   return {
-    name,
+    name: match.groups.name,
     repeatCount,
-    params,
   };
 };
 
