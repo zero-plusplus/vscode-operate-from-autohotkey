@@ -1,4 +1,6 @@
 .vscode/
+build
+!build/src/extension.js
 demo/
 node_modules/
 src/
