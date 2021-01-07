@@ -16,7 +16,7 @@ Please read the following first.
 
 # News
 ## Update
-* `1.0.0` - 2021-01-06
+* `1.0.0` - 2021-01-08
     * First released
 
 # Overview

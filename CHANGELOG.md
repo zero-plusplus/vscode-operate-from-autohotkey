@@ -13,7 +13,7 @@ The format is based on [Keep a Changelog][Keep a Changelog] and this project adh
 
 ## [Released]
 
-## [1.0.0] - 2021-01-06
+## [1.0.0] - 2021-01-08
 First released
 
 ---
