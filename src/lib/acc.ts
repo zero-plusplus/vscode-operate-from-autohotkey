@@ -30,8 +30,10 @@ export const getCaretCoordinates = async(): Promise<Coordinates | null> => {
     #SingleInstance
     #Include ${path.resolve(accPath)}
 
+    ; https://www.autohotkey.com/boards/viewtopic.php?f=60&t=77464&sid=f08c842bb0abce7b31e7f4b7aa0dd6ad&start=20#post_content364628
     Acc_Caret := Acc_ObjectFromWindow(WinActive("A"), OBJID_CARET := 0xFFFFFFF8)
     Caret_Location := Acc_Location(Acc_Caret)
+
     FileOpen("*", "w", "utf-8").write("{ ""x"": " . Caret_Location.x . ", ""y"": " . Caret_Location.y . "}")
   `;
 
