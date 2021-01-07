@@ -27,9 +27,7 @@ Therefore, it should be possible to use it not only with AutoHotkey, but also wi
 
 The biggest advantage of this extension would be the ability to directly execute commands that do not have a shortcut key set. Setting shortcut keys can be very tedious, as they must not conflict with other keys. Moreover, there are a surprisingly large number of commands for which no shortcuts have been set.
 
-::: This message will be fixed after the repository is made public.
-It is very convenient but may require a little knowledge to use. If you have any questions, please ask them [here](). (Github account required).
-:::
+It is very convenient but may require a little knowledge to use. If you have any questions, please ask them [here](https://github.com/zero-plusplus/vscode-operate-from-autohotkey/discussions). (Github account required).
 
 By default, all commands can be executed, but if you are concerned about security, you may want to set [operate-from-autohotkey.allowCommands](#settings).
 
