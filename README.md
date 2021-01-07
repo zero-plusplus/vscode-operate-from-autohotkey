@@ -128,13 +128,16 @@ The following settings will be added in [settings.json](https://code.visualstudi
 </tr>
 <tr>
     <td><code>operate-from-autohotkey.hideError</code></td>
-    <td>Whether to notify the user of an error when a command fails to execute.</td>
+    <td>
+        Whether to notify the user of an error when a command fails to execute.<br>
+        <b>Default:</b> <code>false</code>
+    </td>
 </tr>
 <tr>
     <td><code>operate-from-autohotkey.externalLibrary.acc</code></td>
     <td>
         The absolute path of the AutoHotkey external library required by some commands. See details <a href="#about-accahk">here</a>.<br>
-        Default: <code>C:\Program Files\AutoHotkey\lib\Acc.ahk</code>
+        <b>Default:</b> <code>"C:\Program Files\AutoHotkey\lib\Acc.ahk"</code>
     </td>
 </tr>
 </table>
@@ -236,28 +239,28 @@ The following commands will be added.
     <td><code>operate-from-autohotkey.copy.context.json</code></td>
     <td>
         Copy context information in JSON format.<br /><br />
-        Besides being able to retrieve a lot of information at once, you can also retrieve information on all selections of the multi-cursor.
+        Besides being able to retrieve a lot of information at once, you can also retrieve information on all selections of the multi-caret.
     </td>
 </tr>
 <tr>
     <td><code>operate-from-autohotkey.copy.context.json.pretty</code></td>
     <td>
         Copy context information in human-readable JSON format.<br /><br />
-        Besides being able to retrieve a lot of information at once, you can also retrieve information on all selections of the multi-cursor.
+        Besides being able to retrieve a lot of information at once, you can also retrieve information on all selections of the multi-caret.
     </td>
 </tr>
 <tr>
     <td><code>operate-from-autohotkey.copy.context.flattenJson</code></td>
     <td>
         Copy context information in flatten JSON format.<br /><br />
-        Besides being able to retrieve a lot of information at once, you can also retrieve information on all selections of the multi-cursor.
+        Besides being able to retrieve a lot of information at once, you can also retrieve information on all selections of the multi-caret.
     </td>
 </tr>
 <tr>
     <td><code>operate-from-autohotkey.copy.context.flattenJson.pretty</code></td>
     <td>
-        Copy context information in flatten human-readable JSON format.<br /><br />
-        Besides being able to retrieve a lot of information at once, you can also retrieve information on all selections of the multi-cursor.
+        Copy context information in human-readable flatten JSON format.<br /><br />
+        Besides being able to retrieve a lot of information at once, you can also retrieve information on all selections of the multi-caret.
     </td>
 </tr>
 </table>
