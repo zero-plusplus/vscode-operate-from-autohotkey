@@ -166,6 +166,30 @@ export const Commands = {
   async 'operate-from-autohotkey.copy.context.file.eol'(): Promise<void> {
     await vscode.env.clipboard.writeText(`${contextMonitor.fileInfo.eol}`);
   },
+  async 'operate-from-autohotkey.copy.context.selection'(): Promise<void> {
+    await vscode.env.clipboard.writeText(`${contextMonitor.selection.start.line}:${contextMonitor.selection.start.column}:${contextMonitor.selection.end.line}:${contextMonitor.selection.end.column}`);
+  },
+  async 'operate-from-autohotkey.copy.context.selection.start'(): Promise<void> {
+    await vscode.env.clipboard.writeText(`${contextMonitor.selection.start.line}:${contextMonitor.selection.start.column}`);
+  },
+  async 'operate-from-autohotkey.copy.context.selection.start.line'(): Promise<void> {
+    await vscode.env.clipboard.writeText(`${contextMonitor.selection.start.line}`);
+  },
+  async 'operate-from-autohotkey.copy.context.selection.start.column'(): Promise<void> {
+    await vscode.env.clipboard.writeText(`${contextMonitor.selection.start.column}`);
+  },
+  async 'operate-from-autohotkey.copy.context.selection.end'(): Promise<void> {
+    await vscode.env.clipboard.writeText(`${contextMonitor.selection.end.line}:${contextMonitor.selection.end.column}`);
+  },
+  async 'operate-from-autohotkey.copy.context.selection.end.line'(): Promise<void> {
+    await vscode.env.clipboard.writeText(`${contextMonitor.selection.end.line}`);
+  },
+  async 'operate-from-autohotkey.copy.context.selection.end.column'(): Promise<void> {
+    await vscode.env.clipboard.writeText(`${contextMonitor.selection.end.column}`);
+  },
+  async 'operate-from-autohotkey.copy.context.selection.text'(): Promise<void> {
+    await vscode.env.clipboard.writeText(`${contextMonitor.selection.text}`);
+  },
   async 'operate-from-autohotkey.copy.context.json'(): Promise<void> {
     const text = JSON.stringify(await getContexts());
     await vscode.env.clipboard.writeText(text);

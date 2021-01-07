@@ -84,6 +84,38 @@
         "title": "Copy the column number (1-base) of the current caret."
       },
       {
+        "command": "operate-from-autohotkey.copy.context.selection",
+        "title": "Copy the range (1-base) of the current selection in \"startLineNumber:startColumnNumber:endLineNumber:endColumnNumber\" format."
+      },
+      {
+        "command": "operate-from-autohotkey.copy.context.selection.start",
+        "title": "Copy the position (1-base) of the current selection start position in \"lineNumber:columnNumber\" format."
+      },
+      {
+        "command": "operate-from-autohotkey.copy.context.selection.start.line",
+        "title": "Copy the line number (1-base) of the current selection start position."
+      },
+      {
+        "command": "operate-from-autohotkey.copy.context.selection.start.column",
+        "title": ""
+      },
+      {
+        "command": "operate-from-autohotkey.copy.context.selection.end",
+        "title": ""
+      },
+      {
+        "command": "operate-from-autohotkey.copy.context.selection.end.line",
+        "title": ""
+      },
+      {
+        "command": "operate-from-autohotkey.copy.context.selection.end.column",
+        "title": ""
+      },
+      {
+        "command": "operate-from-autohotkey.copy.context.selection.text",
+        "title": ""
+      },
+      {
         "command": "operate-from-autohotkey.copy.context.file",
         "title": "Copy the currently opened file in \"filePath:lineNumber:columnNumber\" format."
       },

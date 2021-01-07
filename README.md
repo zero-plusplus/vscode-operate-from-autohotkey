@@ -143,16 +143,41 @@ The following commands will be added.
     <td><b>[Require Acc.ahk]</b> Copy the y-coordinates of the caret with respect to the screen.</td>
 </tr>
 <tr>
-    <td><code>operate-from-autohotkey.copy.context.caret.position</code></td>
-    <td>Copy the position (1-base) of the current caret in <code>"lineNumber:columnNumber"</code> format.</td>
+    <td><code>operate-from-autohotkey.copy.context.selection</code></td>
+    <td>Copy the range (1-base) of the current selection in <code>"startLineNumber:startColumnNumber:endLineNumber:endColumnNumber"</code> format.</td>
 </tr>
 <tr>
-    <td><code>operate-from-autohotkey.copy.context.caret.position.line</code></td>
-    <td>Copy the line number (1-base) of the current caret.</td>
+    <td><code>operate-from-autohotkey.copy.context.selection.start</code></td>
+    <td>
+        Copy the starting position (1-base) of the current selection in <code>"lineNumber:columnNumber"</code> format.<br /><br />
+        Synonymous with <code>operate-from-autohotkey.copy.context.caret</code>
+    </td>
 </tr>
 <tr>
-    <td><code>operate-from-autohotkey.copy.context.caret.position.column</code></td>
-    <td>Copy the column number (1-base) of the current caret.</td>
+    <td><code>operate-from-autohotkey.copy.context.selection.start.line</code></td>
+    <td>
+        Copy the starting line number (1-base) of the current selection.<br /><br />
+        Synonymous with <code>operate-from-autohotkey.copy.context.caret.line</code>
+    </td>
+</tr>
+<tr>
+    <td><code>operate-from-autohotkey.copy.context.selection.start.column</code></td>
+    <td>
+        Copy the starting column number (1-base) of the current selection.<br /><br />
+        Synonymous with <code>operate-from-autohotkey.copy.context.caret.column</code>
+    </td>
+</tr>
+<tr>
+    <td><code>operate-from-autohotkey.copy.context.selection.end</code></td>
+    <td>Copy the ending position (1-base) of the current selection in <code>"lineNumber:columnNumber"</code> format.</td>
+</tr>
+<tr>
+    <td><code>operate-from-autohotkey.copy.context.selection.end.line</code></td>
+    <td>Copy the ending line number (1-base) of the current selection.</td>
+</tr>
+<tr>
+    <td><code>operate-from-autohotkey.copy.context.selection.end.column</code></td>
+    <td>Copy the ending column number (1-base) of the current selection.</td>
 </tr>
 <tr>
     <td><code>operate-from-autohotkey.copy.context.file</code></td>
