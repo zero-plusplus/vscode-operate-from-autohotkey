@@ -19,11 +19,12 @@ interface FileInfo {
 }
 
 const defaultCaret = { line: -1, column: -1 };
+const defaultSelection = { index: 1, start: { ...defaultCaret }, end: { ...defaultCaret }, length: -1, startOffset: -1, text: '' };
 export class ContextMonitor {
   public fileInfo: FileInfo = { path: '', length: -1, eol: '`n' };
-  public caret: CaretPosition = { ...defaultCaret };
+  public caret: CaretPosition = defaultCaret;
   public selections: Selection[] = [];
-  public selection: Selection = { index: 1, start: { ...defaultCaret }, end: { ...defaultCaret }, length: -1, startOffset: -1, text: '' };
+  public selection: Selection = defaultSelection;
   public start(): this {
     this.updateContexts(vscode.window.activeTextEditor);
     vscode.window.onDidChangeTextEditorSelection((event) => {
@@ -53,7 +54,7 @@ export class ContextMonitor {
         length: selectedText.length,
       };
     }) ?? [];
-    this.selection = this.selections[0];
+    this.selection = 0 < this.selections.length ? this.selections[0] : defaultSelection;
     this.caret = this.selection.start;
   }
 }
