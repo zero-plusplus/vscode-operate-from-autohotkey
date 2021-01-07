@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import { range } from 'underscore';
 import { flatten } from 'objnest';
-import { getAccPath, getCaretCoordinates } from './lib/acc';
+import { getCaretCoordinates } from './lib/acc';
 import { ContextMonitor } from './lib/ContextMonitor';
 import * as AsyncLock from 'async-lock';
 const asyncLock = new AsyncLock();
@@ -9,16 +9,13 @@ const contextMonitor = new ContextMonitor().start();
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const getContexts = async() => {
-  const contexts = {
+  return {
     caret: {
       position: {
         line: contextMonitor.caret.line,
         column: contextMonitor.caret.column,
       },
-      coordinates: {
-        x: -1,
-        y: -1,
-      },
+      coordinates: await getCaretCoordinates(),
     },
     selections: contextMonitor.selections,
     selection: contextMonitor.selections[0],
@@ -28,22 +25,6 @@ const getContexts = async() => {
       eol: contextMonitor.fileInfo.eol,
     },
   };
-
-  try {
-    if (await getAccPath()) {
-      const coordinates = await getCaretCoordinates();
-      if (coordinates) {
-        contexts.caret.coordinates = {
-          x: coordinates.x,
-          y: coordinates.y,
-        };
-      }
-    }
-  }
-  catch (error: unknown) {
-  }
-
-  return contexts;
 };
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -144,15 +125,15 @@ export const Commands = {
   },
   async 'operate-from-autohotkey.copy.context.caret.coordinates'(): Promise<void> {
     const coordinates = await getCaretCoordinates();
-    await vscode.env.clipboard.writeText(coordinates ? `${coordinates.x},${coordinates.y}` : `-1,-1`);
+    await vscode.env.clipboard.writeText(`${coordinates.x},${coordinates.y}`);
   },
   async 'operate-from-autohotkey.copy.context.caret.coordinates.x'(): Promise<void> {
     const coordinates = await getCaretCoordinates();
-    await vscode.env.clipboard.writeText(String(coordinates?.x ?? -1));
+    await vscode.env.clipboard.writeText(String(coordinates.x));
   },
   async 'operate-from-autohotkey.copy.context.caret.coordinates.y'(): Promise<void> {
     const coordinates = await getCaretCoordinates();
-    await vscode.env.clipboard.writeText(String(coordinates?.y ?? -1));
+    await vscode.env.clipboard.writeText(String(coordinates.y));
   },
   async 'operate-from-autohotkey.copy.context.file'(): Promise<void> {
     await vscode.env.clipboard.writeText(`${contextMonitor.fileInfo.path}:${contextMonitor.caret.line}:${contextMonitor.caret.column}`);
