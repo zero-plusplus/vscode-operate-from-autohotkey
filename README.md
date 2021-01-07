@@ -82,6 +82,12 @@ ExecuteVsCodeCommand("
 )")
 ```
 
+The second parameter specifies the amount of time before the timeout (in milliseconds). `0` (or `false`) disables the timeout. Normally, you do not need to specify this parameter, but if you are using a command that requires user input, as in the following example, you should disable it.
+```ahk
+; git.commit prompts for a commit message. Disable the timeout in this case, since it will time out before you can enter it.
+ExecuteVsCodeCommand("git.commit", false)
+```
+
 ## How ExecuteVsCodeCommand works and how to modify it
 Look at the source code for [ExecuteVsCodeCommand](https://github.com/zero-plusplus/vscode-operate-from-autohotkey/blob/main/demo/lib/ExecuteVsCodeCommand.ahk). I have written a detailed description of how it works in the comments.
 It is useful to be able to maintain it yourself in case there are any problems.
