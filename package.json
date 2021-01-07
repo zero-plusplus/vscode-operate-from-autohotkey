@@ -2,10 +2,11 @@
   "name": "vscode-operate-from-autohotkey",
   "displayName": "Operate VSCode from AutoHotkey",
   "version": "0.0.0",
-  "repository": "https://github.com/zero-plusplus/vscode-operate-from-autohotkey.git",
-  "bugs": "https://github.com/zero-plusplus/vscode-operate-from-autohotkey/issues",
+  "description": "Provides a way to execute VSCode commands from AutoHotkey. Also provides command to get context information (e.g. caret position).",
   "author": "zero-plusplus <git@zero-plusplus.com>",
   "license": "MIT",
+  "repository": "https://github.com/zero-plusplus/vscode-operate-from-autohotkey.git",
+  "bugs": "https://github.com/zero-plusplus/vscode-operate-from-autohotkey/issues",
   "main": "./build/src/extension",
   "scripts": {
     "build": "gulp build",
