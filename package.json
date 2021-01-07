@@ -72,15 +72,15 @@
         "title": "Copy the y-coordinates of the caret with respect to the screen."
       },
       {
-        "command": "operate-from-autohotkey.copy.context.caret.position",
+        "command": "operate-from-autohotkey.copy.context.caret",
         "title": "Copy the position (1-base) of the current caret in \"lineNumber:columnNumber\" format."
       },
       {
-        "command": "operate-from-autohotkey.copy.context.caret.position.line",
+        "command": "operate-from-autohotkey.copy.context.caret.line",
         "title": "Copy the line number (1-base) of the current caret."
       },
       {
-        "command": "operate-from-autohotkey.copy.context.caret.position.column",
+        "command": "operate-from-autohotkey.copy.context.caret.column",
         "title": "Copy the column number (1-base) of the current caret."
       },
       {

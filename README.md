@@ -119,6 +119,18 @@ The following commands will be added.
     <td>Executes a command with the contents of the clipboard. This is the core command of this extension. Only one shortcut key is provided: <code>Shift+Ctrl+Alt+F12</code></td>
 </tr>
 <tr>
+    <td><code>operate-from-autohotkey.copy.context.caret</code></td>
+    <td>Copy the position (1-base) of the current caret in <code>"lineNumber:columnNumber"</code> format.</td>
+</tr>
+<tr>
+    <td><code>operate-from-autohotkey.copy.context.caret.line</code></td>
+    <td>Copy the line number (1-base) of the current caret.</td>
+</tr>
+<tr>
+    <td><code>operate-from-autohotkey.copy.context.caret.column</code></td>
+    <td>Copy the column number (1-base) of the current caret.</td>
+</tr>
+<tr>
     <td><code>operate-from-autohotkey.copy.context.caret.coordinates</code></td>
     <td><b>[Require Acc.ahk]</b> Copy the coordinates of the caret with respect to the screen in <code>"x,y"</code> format.</td>
 </tr>

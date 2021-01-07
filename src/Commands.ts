@@ -133,6 +133,15 @@ export const Commands = {
 
     await vscode.env.clipboard.writeText('');
   },
+  async 'operate-from-autohotkey.copy.context.caret'(): Promise<void> {
+    await vscode.env.clipboard.writeText(`${contextMonitor.caret.line}:${contextMonitor.caret.column}`);
+  },
+  async 'operate-from-autohotkey.copy.context.caret.line'(): Promise<void> {
+    await vscode.env.clipboard.writeText(`${contextMonitor.caret.line}`);
+  },
+  async 'operate-from-autohotkey.copy.context.caret.column'(): Promise<void> {
+    await vscode.env.clipboard.writeText(`${contextMonitor.caret.column}`);
+  },
   async 'operate-from-autohotkey.copy.context.caret.coordinates'(): Promise<void> {
     const coordinates = await getCaretCoordinates();
     await vscode.env.clipboard.writeText(coordinates ? `${coordinates.x},${coordinates.y}` : `-1,-1`);
@@ -144,15 +153,6 @@ export const Commands = {
   async 'operate-from-autohotkey.copy.context.caret.coordinates.y'(): Promise<void> {
     const coordinates = await getCaretCoordinates();
     await vscode.env.clipboard.writeText(String(coordinates?.y ?? -1));
-  },
-  async 'operate-from-autohotkey.copy.context.caret.position'(): Promise<void> {
-    await vscode.env.clipboard.writeText(`${contextMonitor.caret.line}:${contextMonitor.caret.column}`);
-  },
-  async 'operate-from-autohotkey.copy.context.caret.position.line'(): Promise<void> {
-    await vscode.env.clipboard.writeText(`${contextMonitor.caret.line}`);
-  },
-  async 'operate-from-autohotkey.copy.context.caret.position.column'(): Promise<void> {
-    await vscode.env.clipboard.writeText(`${contextMonitor.caret.column}`);
   },
   async 'operate-from-autohotkey.copy.context.file'(): Promise<void> {
     await vscode.env.clipboard.writeText(`${contextMonitor.fileInfo.path}:${contextMonitor.caret.line}:${contextMonitor.caret.column}`);
