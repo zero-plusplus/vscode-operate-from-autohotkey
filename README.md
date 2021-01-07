@@ -147,8 +147,8 @@ The following commands will be added.
 
 <table>
 <tr>
-    <td>name</td>
-    <td>description</td>
+    <td><i><b>Name</b></i></td>
+    <td><i><b>Description</b></i></td>
 </tr>
 <tr>
     <td><code>operate-from-autohotkey.executeCommand</code></td>
