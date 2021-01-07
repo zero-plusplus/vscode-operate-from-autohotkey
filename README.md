@@ -37,14 +37,16 @@ By default, all commands can be executed, but if you are concerned about securit
 # Installation
 **This extension works on VSCode 1.46.0 and above.**
 
-1. Install [AutoHotkey](https://www.autohotkey.com/). It is used to get information by some commands, so you need to install it even if you are using another automation tool
+1. Install [AutoHotkey](https://www.autohotkey.com/). Since some commands use AutoHotkey scripts (e.g. Acc.ahk) to get information, you will need to install it even if you are using other automation tools
 2. Press `Ctrl + P`, type `ext install zero-plusplus.vscode-operate-from-autohotkey`
 3. Include [this library](https://github.com/zero-plusplus/vscode-operate-from-autohotkey/blob/main/demo/lib/ExecuteVsCodeCommand.ahk) in your scripts. For v2, [here](https://github.com/zero-plusplus/vscode-operate-from-autohotkey/blob/main/demo/lib/ExecuteVsCodeCommand.ahk2)
 
 ## About Acc.ahk
-Acc.ahk is required when using some commands that retrieve information not provided by VSCode, such as caret coordinates. The original file already has a broken link and you can get a copy of it [here](https://autohotkey.com/board/topic/77303-acc-library-ahk-l-updated-09272012/page-2#post_id_528450).
+`Acc.ahk` is required when using some commands that retrieve information not provided by VSCode, such as caret coordinates. The original file already has a broken link and you can get a copy of it [here](https://autohotkey.com/board/topic/77303-acc-library-ahk-l-updated-09272012/page-2#post_id_528450).
 
 Then place it in the path set in [operate-from-autohotkey.externalLibrary.acc](#settings).
+
+**Note: AutoHotkeyV1 is required to run Acc.ahk. I have explained this in the [Installation](#installation), but I will explain it again.**
 
 
 # Using
