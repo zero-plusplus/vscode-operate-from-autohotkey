@@ -26,6 +26,8 @@ export const getCaretCoordinates = async(): Promise<Coordinates | null> => {
   }
 
   const ahkCode = `
+    #NoTrayIcon
+    #SingleInstance
     #Include ${path.resolve(accPath)}
 
     Acc_Caret := Acc_ObjectFromWindow(WinActive("A"), OBJID_CARET := 0xFFFFFFF8)
