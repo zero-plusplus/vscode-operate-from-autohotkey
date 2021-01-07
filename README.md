@@ -11,7 +11,7 @@ Please read the following first.
 * This document has been translated from Japanese to English using [DeepL Translate](https://www.deepl.com/translator)
 * **This extension is for AutoHotkey users who use VSCode**
 * **Currently no pull requests are being accepted**
-* Bug reports and feature requests are accepted [here](https://github.com/zero-plusplus/vscode-operate-from-autohotkey/issues). I'll respond to you immediately or by the next day, so please feel free to do so
+* Bug reports and feature requests are accepted [here](https://github.com/zero-plusplus/vscode-operate-from-autohotkey/issues). I'll respond to you immediately or by the next day, so please feel free to do so. But look at the known issues first.
 
 
 # News
@@ -48,7 +48,7 @@ Then place it in the path set in [operate-from-autohotkey.externalLibrary.acc](#
 
 
 # Using
-The library described in the third of the [Installation](#installation) defines the `ExecuteVsCodeCommand` function to execute the command. The usage is the same for both AutoHotkey V1 and V2.
+The library described in the third of the [Installation](#installation) defines the `ExecuteVsCodeCommand` function to execute the command. The usage is the same for both AutoHotkey V1 and V2. However, V2 is written for the latest version, and is likely to not work with older versions. In addition, as explained [here](#known-issues), may encounter problems that do not occur in V1.
 
 It is very easy to use, just pass the command name as shown in the following. To find out the name of the command, look [here](https://code.visualstudio.com/api/references/commands#simple-commands).
 ```ahk
@@ -262,6 +262,10 @@ The following commands will be added.
     </td>
 </tr>
 </table>
+
+
+# Known issues
+* V2 only bug. I have confirmed that *Out of memory* occurs in versions `a119`-`a122` when the commands are executed consecutively using hotkeys. However, it does not occur in `a100`, which is closer in specification to v1.
 
 
 # Development support
