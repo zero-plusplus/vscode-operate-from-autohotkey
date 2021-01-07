@@ -53,6 +53,7 @@ ExecuteVsCodeCommand(commandName, timeout_ms := 1000) {
     ; If the command fails to execute for some reason, an error will be generated when the specified number of milliseconds elapses to prevent infinite waiting
     elapsedTime := A_TickCount - startTime
     if (timeout_ms != false && timeout_ms < elapsedTime) {
+      Clipboard := backup
       throw Exception("Timeout. '" commandName "' was executed. If you want to disable the timeout, specify false as the second parameter of '" A_ThisFunc "'.")
     }
 
