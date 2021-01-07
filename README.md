@@ -37,7 +37,6 @@ By default, all commands can be executed, but if you are concerned about securit
 2. Press `Ctrl + P`, type `ext install zero-plusplus.vscode-operate-from-autohotkey`
 3. Include [this library](https://github.com/zero-plusplus/vscode-operate-from-autohotkey/blob/main/demo/lib/ExecuteVsCodeCommand.ahk) in your scripts. For v2, [here](https://github.com/zero-plusplus/vscode-operate-from-autohotkey/blob/main/demo/lib/ExecuteVsCodeCommand.ahk2)
 
-
 ## About Acc.ahk
 Acc.ahk is required when using some commands that retrieve information not provided by VSCode, such as caret coordinates. The original file already has a broken link and you can get a copy of it [here](https://autohotkey.com/board/topic/77303-acc-library-ahk-l-updated-09272012/page-2#post_id_528450).
 
@@ -76,6 +75,28 @@ ExecuteVsCodeCommand("
     cursorDown
 )")
 ```
+
+## How ExecuteVsCodeCommand works and how to modify it
+Look at the source code for [ExecuteVsCodeCommand](https://github.com/zero-plusplus/vscode-operate-from-autohotkey/blob/main/demo/lib/ExecuteVsCodeCommand.ahk). I have written a detailed description of how it works in the comments.
+It is useful to be able to maintain it yourself in case there are any problems.
+
+The following is the answer to the modification example (for V1) in the comments.
+```ahk
+ExecuteVsCodeCommandEx(commandName, timeout_ms := 1000) {
+  if (IsObject(commandName)) {
+    return ExecuteVsCodeCommand(StrJoin(commandName, ","), timeout_ms)
+  }
+  return ExecuteVsCodeCommand(commandName, timeout_ms)
+}
+StrJoin(array, delimiter) {
+  string := ""
+  for i, value in array {
+    string .= value . delimiter
+  }
+  return RTrim(string, delimiter)
+}
+```
+
 
 # Settings
 The following settings will be added in [settings.json](https://code.visualstudio.com/docs/getstarted/settings).

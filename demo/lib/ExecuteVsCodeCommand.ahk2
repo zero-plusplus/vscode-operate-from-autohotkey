@@ -21,30 +21,49 @@
  *  ExecuteVsCodeCommand("cursorRight, cursorDown") ; Execute multiple commands
  */
 ExecuteVsCodeCommand(commandName, timeout_ms := 1000) {
+  ; This function is a minimal implementation that can be understood by people who are not familiar with AutoHotkey
+  ; Once you get used to it, you can modify it to make it easier to use
+  ; For example, if you can specify a string for a single command to be executed, or an array for multiple commands, it will improve usability
+  ;
+  ; In the following sections, I will explain each process
+  ; 1. Backup the clipboard. This is to restore it before terminating this function
   backup := ClipboardAll()
+
+  ; 2. Stores the command name in the clipboard and sends the shortcut key to invoke the operate-from-autohotkey.executeCommand command
   A_Clipboard := commandName
   SendInput("+^!{F12}")
 
-  ; Wait until the return value of the command can be obtained.
+  ; 3. When the command finishes, a blank character or context information will be written to the clipboard. Wait until then
   startTime := A_TickCount
   while (true) {
-    if (commandName ~= "operate-from-autohotkey\.copy.+") {
-      if (A_Clipboard != "" && A_Clipboard != commandName) {
-        break
+    ; Note: Every few dozen times, before the context information is written to the clipboard, a blank character is written for some reason. To avoid false positives, ignore blank
+    if (A_Clipboard == "") {
+      ; Use a regular expression to reject commands that start with operate-from-autohotkey.copy
+      if (commandName ~= "operate-from-autohotkey\.copy.+") {
+        continue
       }
+      ; Below you should write an unknown command to change the clipboard. If you don't have one, you don't need one
     }
-    else if (A_Clipboard != commandName) {
+
+    ; If there are any changes to clipboard, it indicates that the command is finished, so the wait is terminated
+    if (A_Clipboard != commandName) {
       break
     }
 
+    ; If the command fails to execute for some reason, an error will be generated when the specified number of milliseconds elapses to prevent infinite waiting
     elapsedTime := A_TickCount - startTime
     if (timeout_ms != false && timeout_ms < elapsedTime) {
       throw Exception("Timeout. '" commandName "' was executed. If you want to disable the timeout, specify false as the second parameter of '" A_ThisFunc "'.")
     }
+
+    ; Waits for a short time, because running a continuous loop may cause a load and cause problems with the automation process
     Sleep(1)
   }
 
+  ; 4. Stores the result of the command in a variable. This operation is required to restore the clipboard
   result := A_Clipboard
   A_Clipboard := backup
+
+  ; 5. Congratulations! You can successfully returned the results of the command
   return result
 }
