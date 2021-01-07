@@ -104,7 +104,7 @@ export const Commands = {
 
           // Do not execute commands that are not allowed
           if (!isAllowedCommand(parsedCommand.name)) {
-            continue;
+            throw Error(`'${parsedCommand.name}' is not allowed command. Abort the commands.`);
           }
 
           // eslint-disable-next-line @typescript-eslint/no-unused-vars

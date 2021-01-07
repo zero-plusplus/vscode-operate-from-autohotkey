@@ -1,0 +1,6 @@
+{
+    "operate-from-autohotkey.allowCommands": [
+        "*"
+    ],
+    "operate-from-autohotkey.hideError": false
+}
