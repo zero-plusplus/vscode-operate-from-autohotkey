@@ -201,6 +201,10 @@ The following commands will be added.
     <td>Copy the ending column number (1-base) of the current selection.</td>
 </tr>
 <tr>
+    <td><code>operate-from-autohotkey.copy.context.selection.text</code></td>
+    <td>Copy the text of the current selection.</td>
+</tr>
+<tr>
     <td><code>operate-from-autohotkey.copy.context.file</code></td>
     <td>Copy the currently opened file in <code>"filePath:lineNumber:columnNumber"</code> format.</td>
 </tr>
@@ -218,19 +222,31 @@ The following commands will be added.
 </tr>
 <tr>
     <td><code>operate-from-autohotkey.copy.context.json</code></td>
-    <td>Copy context information in JSON format.</td>
+    <td>
+        Copy context information in JSON format.<br /><br />
+        Besides being able to retrieve a lot of information at once, you can also retrieve information on all selections of the multi-cursor.
+    </td>
 </tr>
 <tr>
     <td><code>operate-from-autohotkey.copy.context.json.pretty</code></td>
-    <td>Copy context information in human-readable JSON format.</td>
+    <td>
+        Copy context information in human-readable JSON format.<br /><br />
+        Besides being able to retrieve a lot of information at once, you can also retrieve information on all selections of the multi-cursor.
+    </td>
 </tr>
 <tr>
     <td><code>operate-from-autohotkey.copy.context.flattenJson</code></td>
-    <td>Copy context information in flatten JSON format.</td>
+    <td>
+        Copy context information in flatten JSON format.<br /><br />
+        Besides being able to retrieve a lot of information at once, you can also retrieve information on all selections of the multi-cursor.
+    </td>
 </tr>
 <tr>
     <td><code>operate-from-autohotkey.copy.context.flattenJson.pretty</code></td>
-    <td>Copy context information in flatten human-readable JSON format.</td>
+    <td>
+        Copy context information in flatten human-readable JSON format.<br /><br />
+        Besides being able to retrieve a lot of information at once, you can also retrieve information on all selections of the multi-cursor.
+    </td>
 </tr>
 </table>
 

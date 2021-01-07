@@ -89,31 +89,31 @@
       },
       {
         "command": "operate-from-autohotkey.copy.context.selection.start",
-        "title": "Copy the position (1-base) of the current selection start position in \"lineNumber:columnNumber\" format."
+        "title": "Copy the starting position (1-base) of the current selection in \"lineNumber:columnNumber\" format."
       },
       {
         "command": "operate-from-autohotkey.copy.context.selection.start.line",
-        "title": "Copy the line number (1-base) of the current selection start position."
+        "title": "Copy the starting line number (1-base) of the current selection."
       },
       {
         "command": "operate-from-autohotkey.copy.context.selection.start.column",
-        "title": ""
+        "title": "Copy the starting column number (1-base) of the current selection. Synonymous with \"operate-from-autohotkey.copy.context.caret.column\"."
       },
       {
         "command": "operate-from-autohotkey.copy.context.selection.end",
-        "title": ""
+        "title": "Copy the ending position (1-base) of the current selection in \"lineNumber:columnNumber\" format."
       },
       {
         "command": "operate-from-autohotkey.copy.context.selection.end.line",
-        "title": ""
+        "title": "Copy the ending line number (1-base) of the current selection."
       },
       {
         "command": "operate-from-autohotkey.copy.context.selection.end.column",
-        "title": ""
+        "title": "Copy the ending column number (1-base) of the current selection."
       },
       {
         "command": "operate-from-autohotkey.copy.context.selection.text",
-        "title": ""
+        "title": "Copy the text of the current selection."
       },
       {
         "command": "operate-from-autohotkey.copy.context.file",
@@ -133,19 +133,19 @@
       },
       {
         "command": "operate-from-autohotkey.copy.context.json",
-        "title": "Copy context information in JSON format."
+        "title": "Copy context information in JSON format. Besides being able to retrieve a lot of information at once, you can also retrieve information on all selections of the multi-cursor."
       },
       {
         "command": "operate-from-autohotkey.copy.context.json.pretty",
-        "title": "Copy context information in human-readable JSON format."
+        "title": "Copy context information in human-readable JSON format. Besides being able to retrieve a lot of information at once, you can also retrieve information on all selections of the multi-cursor."
       },
       {
         "command": "operate-from-autohotkey.copy.context.flattenJson",
-        "title": "Copy context information in flatten JSON format."
+        "title": "Copy context information in flatten JSON format. Besides being able to retrieve a lot of information at once, you can also retrieve information on all selections of the multi-cursor."
       },
       {
         "command": "operate-from-autohotkey.copy.context.flattenJson.pretty",
-        "title": "Copy context information in flatten human-readable JSON format."
+        "title": "Copy context information in flatten human-readable JSON format. Besides being able to retrieve a lot of information at once, you can also retrieve information on all selections of the multi-cursor."
       }
     ],
     "keybindings": [
