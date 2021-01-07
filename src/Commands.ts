@@ -3,7 +3,8 @@ import { range } from 'underscore';
 import { flatten } from 'objnest';
 import { getAccPath, getCaretCoordinates } from './lib/acc';
 import { ContextMonitor } from './lib/ContextMonitor';
-
+import * as AsyncLock from 'async-lock';
+const asyncLock = new AsyncLock();
 const contextMonitor = new ContextMonitor().start();
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -91,47 +92,49 @@ const isAllowedCommand = (commandName: string): boolean => {
 
 export const Commands = {
   async 'operate-from-autohotkey.executeCommand'(): Promise<void> {
-    try {
-      const commandNames = await vscode.env.clipboard.readText();
-      if (commandNames === '') {
-        return;
-      }
-
-      for await (const commandName of commandNames.split(',')) {
-        const parsedCommand = parseCommandText(commandName.trim());
-        if (!parsedCommand) {
-          continue;
+    return asyncLock.acquire('operate-from-autohotkey.executeCommand', async() => {
+      try {
+        const commandNames = await vscode.env.clipboard.readText();
+        if (commandNames === '') {
+          return;
         }
 
-        // Do not execute commands that are not allowed
-        if (!isAllowedCommand(parsedCommand.name)) {
-          continue;
-        }
-
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        for await (const _ of range(parsedCommand.repeatCount)) {
-          await vscode.commands.executeCommand(parsedCommand.name);
-
-          // Exit immediately if there are any changes to the clipboard.
-          if (parsedCommand.name.startsWith('operate-from-autohotkey.copy')) {
-            return;
+        for await (const commandName of commandNames.split(',')) {
+          const parsedCommand = parseCommandText(commandName.trim());
+          if (!parsedCommand) {
+            continue;
           }
-          const currentClip = await vscode.env.clipboard.readText();
-          if (commandNames !== currentClip) {
-            return;
+
+          // Do not execute commands that are not allowed
+          if (!isAllowedCommand(parsedCommand.name)) {
+            continue;
+          }
+
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          for await (const _ of range(parsedCommand.repeatCount)) {
+            await vscode.commands.executeCommand(parsedCommand.name);
+
+            // Exit immediately if there are any changes to the clipboard.
+            if (parsedCommand.name.startsWith('operate-from-autohotkey.copy')) {
+              return;
+            }
+            const currentClip = await vscode.env.clipboard.readText();
+            if (commandNames !== currentClip) {
+              return;
+            }
           }
         }
       }
-    }
-    catch (error: unknown) {
-      const hideError = Boolean(vscode.workspace.getConfiguration('operate-from-autohotkey').get('hideError'));
-      if (!hideError) {
-        await vscode.env.clipboard.writeText('');
-        throw error;
+      catch (error: unknown) {
+        const hideError = Boolean(vscode.workspace.getConfiguration('operate-from-autohotkey').get('hideError'));
+        if (!hideError) {
+          await vscode.env.clipboard.writeText('');
+          throw error;
+        }
       }
-    }
 
-    await vscode.env.clipboard.writeText('');
+      await vscode.env.clipboard.writeText('');
+    });
   },
   async 'operate-from-autohotkey.copy.context.caret'(): Promise<void> {
     await vscode.env.clipboard.writeText(`${contextMonitor.caret.line}:${contextMonitor.caret.column}`);

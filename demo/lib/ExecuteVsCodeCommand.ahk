@@ -28,7 +28,12 @@ ExecuteVsCodeCommand(commandName, timeout_ms := 1000) {
   ; Wait until the return value of the command can be obtained.
   startTime := A_TickCount
   while (true) {
-    if (Clipboard != commandName) {
+    if (commandName ~= "operate-from-autohotkey\.copy.+") {
+      if (Clipboard != "" && Clipboard != commandName) {
+        break
+      }
+    }
+    else if (Clipboard != commandName) {
       break
     }
 
