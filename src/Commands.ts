@@ -95,9 +95,6 @@ export const Commands = {
     return asyncLock.acquire('operate-from-autohotkey.executeCommand', async() => {
       try {
         const commandNames = await vscode.env.clipboard.readText();
-        if (commandNames === '') {
-          return;
-        }
 
         for await (const commandName of commandNames.split(',')) {
           const parsedCommand = parseCommandText(commandName.trim());
