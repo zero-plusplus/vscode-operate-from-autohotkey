@@ -3,6 +3,7 @@
 * [Installation](#installation)
 * [Using](#using)
 * [Commands](#commands)
+* [Known issues](#known-issues)
 * [Development support](#development-support)
 
 
