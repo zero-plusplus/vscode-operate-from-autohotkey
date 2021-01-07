@@ -1,7 +1,7 @@
 {
   "name": "vscode-operate-from-autohotkey",
   "displayName": "Operate VSCode from AutoHotkey",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Provides a way to execute VSCode commands from AutoHotkey. Also provides command to get context information (e.g. caret position).",
   "author": "zero-plusplus <git@zero-plusplus.com>",
   "license": "MIT",
