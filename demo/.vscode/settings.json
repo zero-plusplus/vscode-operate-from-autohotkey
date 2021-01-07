@@ -2,5 +2,6 @@
     "operate-from-autohotkey.allowCommands": [
         "*"
     ],
-    "operate-from-autohotkey.hideError": false
+    "operate-from-autohotkey.hideError": false,
+    "operate-from-autohotkey.externalLibrary.acc": "C:\\Program Files\\AutoHotkey\\lib\\Acc.ahk"
 }
