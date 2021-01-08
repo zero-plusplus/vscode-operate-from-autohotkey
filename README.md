@@ -17,6 +17,11 @@ Please read the following first.
 
 # News
 ## Update
+* `1.0.1` - 2021-xx-xx
+    * Fixed: In the command to retrieve json, the structure of the following property was incorrect. It has been fixed as follows
+        * json.caret.position.line -> json.caret.line
+        * json.caret.position.column-> json.caret.column
+
 * `1.0.0` - 2021-01-08
     * First released
 

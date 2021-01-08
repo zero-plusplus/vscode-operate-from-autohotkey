@@ -11,10 +11,7 @@ const contextMonitor = new ContextMonitor().start();
 const getContexts = async() => {
   return {
     caret: {
-      position: {
-        line: contextMonitor.caret.line,
-        column: contextMonitor.caret.column,
-      },
+      ...contextMonitor.caret,
       coordinates: await getCaretCoordinates(),
     },
     selections: contextMonitor.selections,
