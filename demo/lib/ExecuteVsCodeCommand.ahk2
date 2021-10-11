@@ -20,6 +20,8 @@
  *  ExecuteVsCodeCommand("cursorRight:5")           ; Execute the same command five times
  *  ExecuteVsCodeCommand("cursorRight, cursorDown") ; Execute multiple commands
  */
+#Requires AutoHotkey v2.0-beta.1
+
 ExecuteVsCodeCommand(commandName, timeout_ms := 1000) {
   ; This function is a minimal implementation that can be understood by people who are not familiar with AutoHotkey
   ; Once you get used to it, you can modify it to make it easier to use
@@ -54,7 +56,7 @@ ExecuteVsCodeCommand(commandName, timeout_ms := 1000) {
     elapsedTime := A_TickCount - startTime
     if (timeout_ms != false && timeout_ms < elapsedTime) {
       A_Clipboard := backup
-      throw Exception("Timeout. '" commandName "' was executed. If you want to disable the timeout, specify false as the second parameter of '" A_ThisFunc "'.")
+      throw Error("Timeout. '" commandName "' was executed. If you want to disable the timeout, specify false as the second parameter of '" A_ThisFunc "'.")
     }
 
     ; Waits for a short time, because running a continuous loop may cause a load and cause problems with the automation process

@@ -95,12 +95,12 @@ EnduranceTest(*) {
         result := ExecuteVsCodeCommand(commandName)
         if (result == "" || result == commandName) {
           currentCommandName := commandName
-          throw Exception(A_Index)
+          throw Error(A_Index)
         }
       }
       ; @Debug-Output => PASS: {A_Index}
     }
-    catch e {
+    catch Error as e {
       ; @Debug-Output => FAIL: {A_Index} - {currentCommandName}
     }
   }
