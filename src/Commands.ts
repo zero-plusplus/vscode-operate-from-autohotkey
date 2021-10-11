@@ -16,11 +16,8 @@ const getContexts = async() => {
     },
     selections: contextMonitor.selections,
     selection: contextMonitor.selections[0],
-    file: {
-      path: contextMonitor.fileInfo.path,
-      length: contextMonitor.fileInfo.length,
-      eol: contextMonitor.fileInfo.eol,
-    },
+    file: { ...contextMonitor.fileInfo },
+    is: { ...contextMonitor.is },
   };
 };
 
@@ -167,6 +164,9 @@ export const Commands = {
   },
   async 'operate-from-autohotkey.copy.context.selection.text'(): Promise<void> {
     await vscode.env.clipboard.writeText(`${contextMonitor.selection.text}`);
+  },
+  async 'operate-from-autohotkey.copy.context.is.debugging'(): Promise<void> {
+    await vscode.env.clipboard.writeText(`${Number(contextMonitor.is.debugging)}`);
   },
   async 'operate-from-autohotkey.copy.context.json'(): Promise<void> {
     const text = JSON.stringify(await getContexts());

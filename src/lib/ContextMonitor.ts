@@ -25,10 +25,17 @@ export class ContextMonitor {
   public caret: CaretPosition = defaultCaret;
   public selections: Selection[] = [];
   public selection: Selection = defaultSelection;
+  public is = { debugging: false };
   public start(): this {
     this.updateContexts(vscode.window.activeTextEditor);
     vscode.window.onDidChangeTextEditorSelection((event) => {
       this.updateContexts(event.textEditor);
+    });
+    vscode.debug.onDidStartDebugSession((event) => {
+      this.is.debugging = true;
+    });
+    vscode.debug.onDidTerminateDebugSession((event) => {
+      this.is.debugging = false;
     });
 
     return this;

@@ -13,7 +13,10 @@ The format is based on [Keep a Changelog][Keep a Changelog] and this project adh
 
 ## [Released]
 
-## [1.0.1] - 2021-xx-xx
+## [1.1.0] - 2021-xx-xx
+### Added
+* Add command `operate-from-autohotkey.copy.context.is.debugging`
+
 ### Fixed
 * In the command to retrieve json, the structure of the following property was incorrect. It has been fixed as follows
     * json.caret.position.line -> json.caret.line
@@ -29,4 +32,5 @@ First released
 [Semantic Versioning]: https://semver.org/
 
 <!-- Versions -->
+[1.1.0]: https://github.com/zero-plusplus/vscode-operate-from-autohotkey/compare/v1.0.0..v1.1.0
 [1.0.0]: https://github.com/zero-plusplus/vscode-operate-from-autohotkey/tree/v1.0.0

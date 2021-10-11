@@ -133,6 +133,10 @@
         "title": "Copy the currently opened End Of Line (EOL) of the file. Value that can be gotten are \"`n\" or \"`r`n\"."
       },
       {
+        "command": "operate-from-autohotkey.copy.context.is.debugging",
+        "title": "Copy the number indicating whether debugging is in progress (1) or not (0)."
+      },
+      {
         "command": "operate-from-autohotkey.copy.context.json",
         "title": "Copy context information in JSON format. Besides being able to retrieve a lot of information at once, you can also retrieve information on all selections of the multi-cursor."
       },

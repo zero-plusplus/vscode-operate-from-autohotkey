@@ -18,6 +18,7 @@ Please read the following first.
 # News
 ## Update
 * `1.0.1` - 2021-xx-xx
+    * Added: Add command `operate-from-autohotkey.copy.context.is.debugging`
     * Fixed: In the command to retrieve json, the structure of the following property was incorrect. It has been fixed as follows
         * json.caret.position.line -> json.caret.line
         * json.caret.position.column-> json.caret.column
@@ -238,6 +239,10 @@ The following commands will be added.
 <tr>
     <td><code>operate-from-autohotkey.copy.context.file.eol</code></td>
     <td>Copy the currently opened End Of Line (EOL) of the file. Value that can be gotten are <code>"`n"</code> or <code>"`r`n"</code>.</td>
+</tr>
+<tr>
+    <td><code>operate-from-autohotkey.copy.context.is.debugging</code></td>
+    <td>Copy the number indicating whether debugging is in progress (<code>1</code>) or not (<code>0</code>).</td>
 </tr>
 <tr>
     <td><code>operate-from-autohotkey.copy.context.json</code></td>
