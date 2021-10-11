@@ -17,6 +17,9 @@ The format is based on [Keep a Changelog][Keep a Changelog] and this project adh
 ### Added
 * Add command `operate-from-autohotkey.copy.context.is.debugging`
 
+### Changed
+* The [library](https://github.com/zero-plusplus/vscode-operate-from-autohotkey/blob/main/demo/lib/ExecuteVsCodeCommand.ahk2) for v2 is now compatible with v2.0.beta.1
+
 ### Fixed
 * In the command to retrieve json, the structure of the following property was incorrect. It has been fixed as follows
     * json.caret.position.line -> json.caret.line
