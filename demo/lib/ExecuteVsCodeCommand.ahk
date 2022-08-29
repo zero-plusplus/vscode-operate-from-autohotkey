@@ -1,6 +1,6 @@
 ﻿/**
- * @auther zero-plusplus
- * @licence MIT
+ * @author zero-plusplus
+ * @license MIT
  * @see https://github.com/zero-plusplus/vscode-operate-from-autohotkey
  */
 /**
