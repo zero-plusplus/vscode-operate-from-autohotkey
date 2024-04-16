@@ -16,7 +16,7 @@ export default async(ahkCode: string, runtime?: string, timeout_ms = 500): Promi
   return Promise.race<string | null>([
     new Promise<string | null>((resolve, reject) => {
       const child = spawn(runtimePath, [ '/CP65001', '/ErrorStdOut', '*' ]);
-      child.stdout.on('data', (buffer) => {
+      child.stdout.on('data', (buffer: Buffer) => {
         const outputString = Buffer.from(buffer).toString('utf-8');
         if (outputString) {
           resolve(outputString);

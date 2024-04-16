@@ -3,7 +3,7 @@ import { range } from 'underscore';
 import { flatten } from 'objnest';
 import { getCaretCoordinates } from './lib/acc';
 import { ContextMonitor } from './lib/ContextMonitor';
-import * as AsyncLock from 'async-lock';
+import AsyncLock from 'async-lock';
 const asyncLock = new AsyncLock();
 const contextMonitor = new ContextMonitor().start();
 
@@ -46,7 +46,7 @@ const isAllowedCommand = (commandName: string): boolean => {
     return false;
   }
 
-  const allowCommands = vscode.workspace.getConfiguration('operate-from-autohotkey').get('allowCommands') as string[];
+  const allowCommands = vscode.workspace.getConfiguration('operate-from-autohotkey').get<string[]>('allowCommands')!;
   for (const allowCommand of allowCommands) {
     if (allowCommand === '*') {
       return true;
@@ -98,7 +98,7 @@ export const Commands = {
         }
       }
       catch (error: unknown) {
-        const hideError = Boolean(vscode.workspace.getConfiguration('operate-from-autohotkey').get('hideError'));
+        const hideError = vscode.workspace.getConfiguration('operate-from-autohotkey').get<boolean>('hideError');
         if (!hideError) {
           await vscode.env.clipboard.writeText('');
           throw error;

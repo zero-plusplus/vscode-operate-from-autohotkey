@@ -4,30 +4,12 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "subtask:watch",
+      "label": "npm:watch",
       "type": "shell",
       "isBackground": true,
-      "command": "yarn watch",
+      "command": "npm run watch",
       "problemMatcher": [
-          {
-          "owner": "gulp",
-          "base": "$tsc-watch",
-          "pattern": {
-              "regexp": "^\\s*([^:]+):(\\d+):(\\d+) - (error) (.+)$",
-              "file": 1,
-              "line": 2,
-              "column": 3,
-              "severity": 4,
-              "message": 5,
-          },
-          "background": {
-            "activeOnStart": true,
-            "beginsPattern": "^\\s*\\[\\d{1,2}:\\d{1,2}:\\d{1,2}\\] (Starting compilation in watch mode\\.\\.\\.|File change detected. Starting incremental compilation\\.\\.\\.)$",
-            "endsPattern": "^\\s*\\[\\d{1,2}:\\d{1,2}:\\d{1,2}\\] Found \\d+ errors\\. Watching for file changes\\."
-          }
-        },
         {
-          "owner": "gulp",
           "pattern": {
               "regexp": "^\\s*([^:]+):(\\d+):(\\d+) - (error) (.+)$",
               "file": 1,
@@ -38,9 +20,31 @@
           },
           "background": {
             "activeOnStart": true,
-            "beginsPattern": "^\\s*\\[\\d{1,2}:\\d{1,2}:\\d{1,2}\\] Starting 'watchDemo'\\.\\.\\.$",
-            "endsPattern": "^\\s*\\[\\d{1,2}:\\d{1,2}:\\d{1,2}\\] Found \\d+ errors\\. Watching for file changes\\."
-            // "endsPattern": "^\\s*\\[\\d{1,2}:\\d{1,2}:\\d{1,2}\\] Finished 'buildSyntaxDemo' after \\d+ ms$"
+            "beginsPattern": "> ts-node task\\/watch\\.ts",
+            "endsPattern": "^\\[esbuild\\] completed at"
+          }
+        }
+      ]
+    },
+    {
+      "label": "npm:watch:public",
+      "type": "shell",
+      "isBackground": true,
+      "command": "npm run watch:public",
+      "problemMatcher": [
+        {
+          "pattern": {
+              "regexp": "^\\s*([^:]+):(\\d+):(\\d+) - (error) (.+)$",
+              "file": 1,
+              "line": 2,
+              "column": 3,
+              "severity": 4,
+              "message": 5,
+          },
+          "background": {
+            "activeOnStart": true,
+            "beginsPattern": "> ts-node task\\/watch\\.ts",
+            "endsPattern": "^\\[esbuild\\] completed at"
           }
         }
       ]
