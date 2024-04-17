@@ -1,11 +1,10 @@
 import * as vscode from 'vscode';
 import { getCaretCoordinates } from './lib/acc';
 import { ContextMonitor } from './lib/ContextMonitor';
-import AsyncLock from 'async-lock';
 import { deepFlatten } from './utils/deepFlatten';
 import { range } from './utils/range';
+import { createMutex } from './utils/createMutex';
 
-const asyncLock = new AsyncLock();
 const contextMonitor = new ContextMonitor().start();
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -68,7 +67,7 @@ const isAllowedCommand = (commandName: string): boolean => {
 
 export const Commands = {
   async 'operate-from-autohotkey.executeCommand'(): Promise<void> {
-    return asyncLock.acquire('operate-from-autohotkey.executeCommand', async() => {
+    return createMutex('operate-from-autohotkey.executeCommand').use(async() => {
       try {
         const commandNames = await vscode.env.clipboard.readText();
 
