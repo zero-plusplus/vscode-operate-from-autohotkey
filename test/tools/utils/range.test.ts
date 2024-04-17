@@ -1,5 +1,5 @@
 import { describe, expect, test } from '@jest/globals';
-import { RangeError, range } from '../../src/utils/range';
+import { RangeError, range } from '../../../src/tools/utils/range';
 
 describe('range', () => {
   describe('non-problem', () => {

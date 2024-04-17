@@ -1,5 +1,5 @@
 import { describe, expect, test } from '@jest/globals';
-import { deepFlatten } from '../../src/utils/deepFlatten';
+import { deepFlatten } from '../../../src/tools/utils/deepFlatten';
 
 describe('deepFlatten', () => {
   test('deepFlatten', () => {

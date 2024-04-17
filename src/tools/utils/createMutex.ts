@@ -1,4 +1,4 @@
-import { Mutex, Task } from '../types/utils/createMutex.types';
+import { Mutex, Task } from '../../types/tools/utils/createMutex.types';
 
 const cache = new Map<string, Mutex>();
 export const createMutex = (key = ''): Mutex => {

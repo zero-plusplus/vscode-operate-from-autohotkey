@@ -1,5 +1,5 @@
 import ahkEval from './ahkEval';
-import { CaretCoordinates } from '../types/utils/getCaretCoordinates.types';
+import { CaretCoordinates } from '../../types/tools/utils/getCaretCoordinates.types';
 
 const ahkCode_v1 = `
   #NoTrayIcon

@@ -1,5 +1,5 @@
 import { describe, expect, test } from '@jest/globals';
-import { fileExists } from '../../src/utils/fileExists';
+import { fileExists } from '../../../src/tools/utils/fileExists';
 
 describe('fileExists', () => {
   test('fileExists', () => {

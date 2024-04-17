@@ -1,6 +1,6 @@
 import { describe, expect, test } from '@jest/globals';
-import { createMutex } from '../../src/utils/createMutex';
-import { sleep } from '../../src/utils/sleep';
+import { createMutex } from '../../../src/tools/utils/createMutex';
+import { sleep } from '../../../src/tools/utils/sleep';
 
 describe('createMutex', () => {
   test('main', async() => {

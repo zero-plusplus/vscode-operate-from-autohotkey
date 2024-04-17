@@ -1,9 +1,9 @@
 import * as vscode from 'vscode';
-import { getCaretCoordinates } from './utils/getCaretCoordinates';
-import { ContextMonitor } from './lib/ContextMonitor';
-import { deepFlatten } from './utils/deepFlatten';
-import { range } from './utils/range';
-import { createMutex } from './utils/createMutex';
+import { getCaretCoordinates } from './tools/utils/getCaretCoordinates';
+import { ContextMonitor } from './tools/ContextMonitor';
+import { deepFlatten } from './tools/utils/deepFlatten';
+import { range } from './tools/utils/range';
+import { createMutex } from './tools/utils/createMutex';
 
 const contextMonitor = new ContextMonitor().start();
 
