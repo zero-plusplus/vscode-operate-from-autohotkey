@@ -1,9 +1,10 @@
 import * as vscode from 'vscode';
-import { range } from 'underscore';
-import { flatten } from 'objnest';
 import { getCaretCoordinates } from './lib/acc';
 import { ContextMonitor } from './lib/ContextMonitor';
 import AsyncLock from 'async-lock';
+import { deepFlatten } from './utils/deepFlatten';
+import { range } from './utils/range';
+
 const asyncLock = new AsyncLock();
 const contextMonitor = new ContextMonitor().start();
 
@@ -177,11 +178,11 @@ export const Commands = {
     await vscode.env.clipboard.writeText(text);
   },
   async 'operate-from-autohotkey.copy.context.flattenJson'(): Promise<void> {
-    const text = JSON.stringify(flatten(await getContexts()));
+    const text = JSON.stringify(deepFlatten(await getContexts()));
     await vscode.env.clipboard.writeText(text);
   },
   async 'operate-from-autohotkey.copy.context.flattenJson.pretty'(): Promise<void> {
-    const text = JSON.stringify(flatten(await getContexts()), null, 4);
+    const text = JSON.stringify(deepFlatten(await getContexts()), null, 4);
     await vscode.env.clipboard.writeText(text);
   },
 };

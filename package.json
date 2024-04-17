@@ -164,22 +164,23 @@
     ]
   },
   "dependencies": {
-    "async-lock": "^1.2.8",
-    "fs-extra": "^11.2.0",
-    "objnest": "^5.1.0",
-    "underscore": "^1.12.1"
+    "async-lock": "^1.4.1",
+    "fs-extra": "^11.2.0"
   },
   "devDependencies": {
     "@types/async-lock": "^1.1.2",
     "@types/fs-extra": "^11.0.4",
+    "@types/jest": "^29.5.12",
     "@types/node": "^20.12.7",
-    "@types/underscore": "^1.10.24",
     "@types/vscode": "^1.46.0",
     "@vscode/vsce": "^2.25.0",
     "@zero-plusplus/eslint-my-rules": "github:zero-plusplus/eslint-my-rules",
     "del": "^6.1.1",
     "esbuild": "^0.20.2",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
+    "type-fest": "^4.15.0",
     "typescript": "^5.0.0"
   }
 }

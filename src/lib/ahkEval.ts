@@ -1,6 +1,6 @@
 import * as path from 'path';
 import { spawn } from 'child_process';
-import { fileExists } from '../util';
+import { fileExists } from '../utils/fileExists';
 
 const defaultRuntimePath = path.resolve(String(process.env.PROGRAMFILES), 'AutoHotkey', 'AutoHotkey.exe');
 
@@ -9,7 +9,7 @@ const defaultRuntimePath = path.resolve(String(process.env.PROGRAMFILES), 'AutoH
  */
 export default async(ahkCode: string, runtime?: string, timeout_ms = 500): Promise<string | null> => {
   const runtimePath = path.resolve(runtime ?? defaultRuntimePath);
-  if (!await fileExists(runtimePath)) {
+  if (!fileExists(runtimePath)) {
     throw Error(`AutoHotkey not installed. Specified: \`${runtimePath}\``);
   }
 

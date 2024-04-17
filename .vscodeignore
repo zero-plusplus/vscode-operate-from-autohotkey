@@ -10,4 +10,5 @@ test/
 .eslintignore
 .eslintrc.js
 .gitignore
+jest.config.ts
 tsconfig.json

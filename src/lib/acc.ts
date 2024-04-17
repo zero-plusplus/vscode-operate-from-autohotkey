@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 import ahkEval from './ahkEval';
-import { fileExists } from '../util';
+import { fileExists } from '../utils/fileExists';
 
 interface Coordinates {
   x: number;
@@ -21,7 +21,7 @@ export const getAccPath = async(): Promise<string | null> => {
 
 export const getCaretCoordinates = async(): Promise<Coordinates> => {
   const accPath = await getAccPath() ?? '';
-  if (!await fileExists(accPath)) {
+  if (!fileExists(accPath)) {
     return { x: -1, y: -1 };
   }
 
