@@ -1,6 +1,6 @@
 import * as path from 'path';
 import { spawn } from 'child_process';
-import { fileExists } from '../utils/fileExists';
+import { fileExists } from './fileExists';
 
 const defaultRuntimePath = path.resolve(String(process.env.PROGRAMFILES), 'AutoHotkey', 'AutoHotkey.exe');
 

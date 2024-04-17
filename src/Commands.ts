@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { getCaretCoordinates } from './lib/acc';
+import { getCaretCoordinates } from './utils/getCaretCoordinates';
 import { ContextMonitor } from './lib/ContextMonitor';
 import { deepFlatten } from './utils/deepFlatten';
 import { range } from './utils/range';

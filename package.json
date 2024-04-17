@@ -32,7 +32,7 @@
   "engines": {
     "vscode": "^1.46.0"
   },
-  "icon": "image/icon.png",
+  "icon": "icon.png",
   "contributes": {
     "configuration": {
       "properties": {
@@ -50,11 +50,6 @@
           "type": "boolean",
           "description": "Whether to notify the user of an error when a command fails to execute.",
           "default": false
-        },
-        "operate-from-autohotkey.externalLibrary.acc": {
-          "type": "string",
-          "description": "Absolute path to Acc.ahk. This library is required to use some commands. See the README for details.",
-          "default": "C:\\Program Files\\AutoHotkey\\lib\\Acc.ahk"
         }
       }
     },
@@ -163,9 +158,6 @@
       }
     ]
   },
-  "dependencies": {
-    "fs-extra": "^11.2.0"
-  },
   "devDependencies": {
     "@types/fs-extra": "^11.0.4",
     "@types/jest": "^29.5.12",
@@ -175,6 +167,7 @@
     "@zero-plusplus/eslint-my-rules": "github:zero-plusplus/eslint-my-rules",
     "del": "^6.1.1",
     "esbuild": "^0.20.2",
+    "fs-extra": "^11.2.0",
     "jest": "^29.7.0",
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
