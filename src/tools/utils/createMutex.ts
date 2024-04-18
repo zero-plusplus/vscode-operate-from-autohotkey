@@ -7,7 +7,7 @@ export const createMutex = (key = ''): Mutex => {
   }
 
   let currentTaskResult: Promise<any> = Promise.resolve();
-  const mutex = {
+  const mutex: Mutex = {
     use: async<T>(task: Task<T>): Promise<T> => {
       currentTaskResult = currentTaskResult.then(async() => {
         return task();
