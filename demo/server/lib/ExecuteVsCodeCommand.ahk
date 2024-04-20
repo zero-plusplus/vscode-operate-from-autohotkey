@@ -1,5 +1,4 @@
-﻿ExecuteVsCodeCommand("cursorRight")
-ExecuteVsCodeCommand(commandName, config := "") {
+﻿ExecuteVsCodeCommand(commandName, config := "") {
   ; #region variables and constants
   static DEFAULT_PORT := 9001, DEFUALT_HOSTNAME := "127.0.0.1", DEFAULT_TIMEOUT_MS := 1000, DEFAULT_RECIEVED_MAX_LENGTH := A_IsUnicode ? 4096 * 2 : 4096
   static NULL := 0, STRING_TYPE := A_IsUnicode ? "WStr" : "AStr"
@@ -62,16 +61,11 @@ ExecuteVsCodeCommand(commandName, config := "") {
     VarSetCapacity(sockaddrIn, SOCKADDR_IN_BYTE_SIZE, 0)
     NumPut(AF_INET, sockaddrIn, offset := 0, "UShort") ; sin_family
     NumPut(DllCall("ws2_32\htons", "UShort", port, "UShort"), sockaddrIn, offset += SHORT_BYTE_SIZE, "UShort") ; https://learn.microsoft.com/en-us/windows/win32/api/winsock2/nf-winsock2-htons
-    NumPut(DllCall("ws2_32\inet_addr", STRING_TYPE, hostname), sockaddrIn, offset += USHORT_BYTE_SIZE) ; https://learn.microsoft.com/en-us/windows/win32/api/winsock/nf-winsock-inet_addr
+    NumPut(DllCall("ws2_32\inet_addr", "AStr", hostname), sockaddrIn, offset += USHORT_BYTE_SIZE) ; https://learn.microsoft.com/en-us/windows/win32/api/winsock/nf-winsock-inet_addr
 
-    bindError := DllCall("ws2_32\bind", "Ptr", socket, "Ptr", &sockaddrIn, "Int", SOCKADDR_IN_BYTE_SIZE)
+    bindError := DllCall("ws2_32\connect", "Ptr", socket, "Ptr", &sockaddrIn, "Int", SOCKADDR_IN_BYTE_SIZE)
     if (bindError != 0) {
       throw Exception("bind error")
-    }
-
-    listenError := DllCall("ws2_32\listen", "Ptr", socket, "Int", NULL)
-    if (listenError != 0) {
-      throw Exception("listen error")
     }
 
     OnExit(Func("ExecuteVsCodeCommand_OnExit").bind(module, socket))
@@ -81,7 +75,8 @@ ExecuteVsCodeCommand(commandName, config := "") {
 
   ; #region main process
   ; https://learn.microsoft.com/en-us/windows/win32/api/winsock2/nf-winsock2-send
-  sentBytes := DllCall("ws2_32\send", "Ptr", socket, "Str", commandName, "Int", StrLen(commandName), "Int", NULL)
+  sentBytes := DllCall("ws2_32\send", "Ptr", socket, "AStr", commandName, "Int", StrLen(commandName), "Int", NULL)
+  e := DllCall("ws2_32\WSAGetLastError")
   if (sentBytes < 0) {
     throw Exception("send error")
   }
