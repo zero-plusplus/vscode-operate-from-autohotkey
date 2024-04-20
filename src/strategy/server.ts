@@ -16,16 +16,13 @@ export const createServerCommunicationStrategy = async({ port = 9001, hostname =
     createServer((_socket) => {
       socket = _socket;
       socket.on('data', (request: Buffer) => {
-        requests.push(String(request));
+        const request_str = String(request);
+        requests.push(request_str);
       });
     }).listen(port, hostname, () => {
       resolve({
         shouldSuspend: async(currentCommand: string): Promise<boolean> => {
-          socket.once('data', (text: Buffer) => {
-            return currentCommand.toLowerCase() === String(text).toLowerCase();
-          });
-          const text = await vscode.env.clipboard.readText();
-          return currentCommand.toLowerCase() === text.toLowerCase();
+          return Promise.resolve(currentCommand.toLowerCase() === requests[0].toLowerCase());
         },
         complete: async(text?: string): Promise<void> => {
           return new Promise((resolve, rejects) => {
