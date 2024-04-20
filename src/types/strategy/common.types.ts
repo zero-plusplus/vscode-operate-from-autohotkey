@@ -1,7 +1,13 @@
+export interface StrategyContext {
+  hideError: boolean;
+  repeatLimit: number;
+  communicationStrategy: CommunicationStrategy;
+}
 export interface CommunicationStrategy {
   shouldSuspend: (currentCommand: string) => Promise<boolean>;
   complete: (text?: string) => Promise<void>;
   receiveRequest: () => Promise<string>;
+  close: () => Promise<void>;
 }
 
 export const commandNameList = [

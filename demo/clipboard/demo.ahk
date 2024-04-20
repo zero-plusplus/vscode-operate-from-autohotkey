@@ -1,4 +1,5 @@
 ﻿#SingleInstance, Force
+#Include <ExecuteVsCodeCommand>
 
 0::ExecuteVsCodeCommand("NonexistentCommand")
 1::ExecuteVsCodeCommand("cursorRight")

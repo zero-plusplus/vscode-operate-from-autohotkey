@@ -1,0 +1,14 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "AutoHotkey Debug",
+            "type": "autohotkey",
+            "request": "launch",
+            "program": "${file}",
+            "args": [],
+            "useAutoJumpToError": true,
+            "useDebugDirective": true,
+        }
+    ]
+}

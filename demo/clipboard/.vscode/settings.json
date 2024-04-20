@@ -1,0 +1,8 @@
+{
+    "operate-from-autohotkey.allowCommands": [
+        "*"
+    ],
+    "operate-from-autohotkey.hideError": false,
+    "operate-from-autohotkey.repeatLimit": 100,
+    "operate-from-autohotkey.communicationStrategy": "clipboard",
+}

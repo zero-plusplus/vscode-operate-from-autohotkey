@@ -30,7 +30,7 @@
     "onStartupFinished"
   ],
   "engines": {
-    "vscode": "^1.46.0"
+    "vscode": "^1.86.0"
   },
   "icon": "icon.png",
   "contributes": {
@@ -50,107 +50,23 @@
           "type": "boolean",
           "description": "Whether to notify the user of an error when a command fails to execute.",
           "default": false
+        },
+        "operate-from-autohotkey.repeatLimit": {
+          "type": "number",
+          "description": "Maximum number of times a command can be repeated at one time.",
+          "default": 100
+        },
+        "operate-from-autohotkey.communicationStrategy": {
+          "type": "string",
+          "description": "How to use it for communication.",
+          "enum": [
+            "clipboard",
+            "server"
+          ],
+          "default": "clipboard"
         }
       }
     },
-    "commands": [
-      {
-        "command": "operate-from-autohotkey.executeCommand",
-        "title": "Executes a command with the contents of the clipboard."
-      },
-      {
-        "command": "operate-from-autohotkey.copy.context.caret.coordinates",
-        "title": "Copy the coordinates of the caret with respect to the screen in \"x,y\" format."
-      },
-      {
-        "command": "operate-from-autohotkey.copy.context.caret.coordinates.x",
-        "title": "Copy the x-coordinates of the caret with respect to the screen."
-      },
-      {
-        "command": "operate-from-autohotkey.copy.context.caret.coordinates.y",
-        "title": "Copy the y-coordinates of the caret with respect to the screen."
-      },
-      {
-        "command": "operate-from-autohotkey.copy.context.caret",
-        "title": "Copy the position (1-base) of the current caret in \"lineNumber:columnNumber\" format."
-      },
-      {
-        "command": "operate-from-autohotkey.copy.context.caret.line",
-        "title": "Copy the line number (1-base) of the current caret."
-      },
-      {
-        "command": "operate-from-autohotkey.copy.context.caret.column",
-        "title": "Copy the column number (1-base) of the current caret."
-      },
-      {
-        "command": "operate-from-autohotkey.copy.context.selection",
-        "title": "Copy the range (1-base) of the current selection in \"startLineNumber:startColumnNumber:endLineNumber:endColumnNumber\" format."
-      },
-      {
-        "command": "operate-from-autohotkey.copy.context.selection.start",
-        "title": "Copy the starting position (1-base) of the current selection in \"lineNumber:columnNumber\" format."
-      },
-      {
-        "command": "operate-from-autohotkey.copy.context.selection.start.line",
-        "title": "Copy the starting line number (1-base) of the current selection."
-      },
-      {
-        "command": "operate-from-autohotkey.copy.context.selection.start.column",
-        "title": "Copy the starting column number (1-base) of the current selection. Synonymous with \"operate-from-autohotkey.copy.context.caret.column\"."
-      },
-      {
-        "command": "operate-from-autohotkey.copy.context.selection.end",
-        "title": "Copy the ending position (1-base) of the current selection in \"lineNumber:columnNumber\" format."
-      },
-      {
-        "command": "operate-from-autohotkey.copy.context.selection.end.line",
-        "title": "Copy the ending line number (1-base) of the current selection."
-      },
-      {
-        "command": "operate-from-autohotkey.copy.context.selection.end.column",
-        "title": "Copy the ending column number (1-base) of the current selection."
-      },
-      {
-        "command": "operate-from-autohotkey.copy.context.selection.text",
-        "title": "Copy the text of the current selection."
-      },
-      {
-        "command": "operate-from-autohotkey.copy.context.file",
-        "title": "Copy the currently opened file in \"filePath:lineNumber:columnNumber\" format."
-      },
-      {
-        "command": "operate-from-autohotkey.copy.context.file.path",
-        "title": "Copy the currently opened file path."
-      },
-      {
-        "command": "operate-from-autohotkey.copy.context.file.length",
-        "title": "Copy the currently opened file length."
-      },
-      {
-        "command": "operate-from-autohotkey.copy.context.file.eol",
-        "title": "Copy the currently opened End Of Line (EOL) of the file. Value that can be gotten are \"`n\" or \"`r`n\"."
-      },
-      {
-        "command": "operate-from-autohotkey.copy.context.is.debugging",
-        "title": "Copy the number indicating whether debugging is in progress (1) or not (0)."
-      },
-      {
-        "command": "operate-from-autohotkey.copy.context.json",
-        "title": "Copy context information in JSON format. Besides being able to retrieve a lot of information at once, you can also retrieve information on all selections of the multi-cursor."
-      },
-      {
-        "command": "operate-from-autohotkey.copy.context.json.pretty",
-        "title": "Copy context information in human-readable JSON format. Besides being able to retrieve a lot of information at once, you can also retrieve information on all selections of the multi-cursor."
-      },
-      {
-        "command": "operate-from-autohotkey.copy.context.flattenJson",
-        "title": "Copy context information in flatten JSON format. Besides being able to retrieve a lot of information at once, you can also retrieve information on all selections of the multi-cursor."
-      },
-      {
-        "command": "operate-from-autohotkey.copy.context.flattenJson.pretty",
-        "title": "Copy context information in flatten human-readable JSON format. Besides being able to retrieve a lot of information at once, you can also retrieve information on all selections of the multi-cursor."
-      }
-    ],
     "keybindings": [
       {
         "key": "shift+ctrl+alt+f12",
@@ -162,7 +78,7 @@
     "@types/fs-extra": "^11.0.4",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.12.7",
-    "@types/vscode": "^1.46.0",
+    "@types/vscode": "^1.86.0",
     "@vscode/vsce": "^2.25.0",
     "@zero-plusplus/eslint-my-rules": "github:zero-plusplus/eslint-my-rules",
     "del": "^6.1.1",

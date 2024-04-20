@@ -3,5 +3,6 @@
         "*"
     ],
     "operate-from-autohotkey.hideError": false,
-    "operate-from-autohotkey.externalLibrary.acc": "C:\\Program Files\\AutoHotkey\\lib\\Acc.ahk"
+    "operate-from-autohotkey.repeatLimit": 100,
+    "operate-from-autohotkey.communicationStrategy": "server",
 }
