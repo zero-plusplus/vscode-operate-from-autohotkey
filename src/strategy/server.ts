@@ -1,4 +1,3 @@
-import * as vscode from 'vscode';
 import { CommunicationStrategy } from '../types/strategy/common.types';
 import { Socket, createServer } from 'net';
 
