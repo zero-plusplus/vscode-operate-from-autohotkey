@@ -67,8 +67,6 @@ const isAllowedCommand = (commandName: string): boolean => {
 };
 
 export const registerCommands = async(): Promise<vscode.Disposable> => {
-  const conf = vscode.workspace.getConfiguration(configRootName);
-
   const context = await createDefaultStrategyContext();
   vscode.workspace.onDidChangeConfiguration(async(e) => {
     await updateCommunicationStrategy(e);
@@ -108,6 +106,7 @@ export const registerCommands = async(): Promise<vscode.Disposable> => {
     return defaultServerCommunicationStrategyOptions;
   }
   async function createDefaultStrategyContext(): Promise<StrategyContext> {
+    const conf = vscode.workspace.getConfiguration(configRootName);
     const strategyNameOrOptions = conf.get<string | CommunicationStrategyOptions>('communicationMethod', 'server');
     const communicationOptions = normalizeCommunicationStrategyOptions(strategyNameOrOptions);
     const communicationMethod = await createCommunicationStrategy(communicationOptions);
@@ -119,8 +118,12 @@ export const registerCommands = async(): Promise<vscode.Disposable> => {
     });
   }
   async function updateCommunicationStrategy(event?: vscode.ConfigurationChangeEvent): Promise<void> {
+    const conf = vscode.workspace.getConfiguration(configRootName);
     return createMutex('updateCommunicationStrategy').use(async(): Promise<void> => {
-      if (!event || event.affectsConfiguration(`${configRootName}.communicationMethod`)) {
+      if (!event) {
+        return;
+      }
+      if (event.affectsConfiguration(`${configRootName}.communicationMethod`)) {
         await context.communicationMethod.close();
 
         const strategyNameOrOptions = conf.get<string | CommunicationStrategyOptions>('communicationMethod', 'server');
@@ -129,11 +132,11 @@ export const registerCommands = async(): Promise<vscode.Disposable> => {
         // eslint-disable-next-line require-atomic-updates
         context.communicationMethod = await createCommunicationStrategy(context.communicationOptions);
       }
-      if (!event || event.affectsConfiguration(`${configRootName}.hideError`)) {
+      if (event.affectsConfiguration(`${configRootName}.hideError`)) {
       // eslint-disable-next-line require-atomic-updates
         context.hideError = conf.get<boolean>('hideError', true);
       }
-      if (!event || event.affectsConfiguration(`${configRootName}.repeatLimit`)) {
+      if (event.affectsConfiguration(`${configRootName}.repeatLimit`)) {
       // eslint-disable-next-line require-atomic-updates
         context.repeatLimit = conf.get<number>('repeatLimit', 100);
       }
