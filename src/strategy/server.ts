@@ -1,3 +1,5 @@
+import { createMutex } from '../tools/utils/createMutex';
+import { withResolvers } from '../tools/utils/withResolvers';
 import { CommunicationStrategy } from '../types/strategy/common.types';
 import { Socket, createServer } from 'net';
 
@@ -10,16 +12,17 @@ export const createServerCommunicationStrategy = async({ port = 9001, hostname =
   }
 
   const requests: string[] = [];
-  const socketResolvers = (<T extends Socket>(): { resolve: (value: T) => void; reject: (err?: Error) => void; promise: Promise<T> } => {
-    return Promise.withResolvers();
-  })();
+  const socketResolvers = withResolvers<Socket>();
+  let requestResolvers = withResolvers<string>();
   let initialized = false;
   return new Promise((resolve) => {
     createServer((socket) => {
       initialized = true;
       socket.on('data', (request: Buffer) => {
-        const request_str = String(request);
-        requests.push(request_str);
+        createMutex('request').use(async() => {
+          requestResolvers.resolve(String(request));
+          return Promise.resolve();
+        });
       });
       socketResolvers.resolve(socket);
     }).listen(port, hostname, () => {
@@ -44,7 +47,10 @@ export const createServerCommunicationStrategy = async({ port = 9001, hostname =
           });
         },
         receiveRequest: async(): Promise<string> => {
-          return Promise.resolve(requests.shift() ?? '');
+          return requestResolvers.promise.then((request) => {
+            requestResolvers = withResolvers<string>();
+            return request;
+          });
         },
         close: async(): Promise<void> => {
           if (!initialized) {
