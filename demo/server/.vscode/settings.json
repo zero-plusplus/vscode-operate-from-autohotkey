@@ -4,5 +4,5 @@
     ],
     "operate-from-autohotkey.hideError": false,
     "operate-from-autohotkey.repeatLimit": 100,
-    "operate-from-autohotkey.communicationStrategy": "server",
+    "operate-from-autohotkey.communicationMethod": "server"
 }

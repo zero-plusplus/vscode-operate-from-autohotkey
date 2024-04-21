@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import { deepFlatten } from '../tools/utils/deepFlatten';
-import { Commands, SendCommandName, StrategyContext, sendCommandNameList } from '../types/strategy/common.types';
+import { Commands, CommunicationStrategy, CommunicationStrategyOptions, SendCommandName, StrategyContext, defaultClipboardCommunicationStrategyOptions, defaultServerCommunicationStrategyOptions, sendCommandNameList } from '../types/strategy/common.types';
 import { createMutex } from '../tools/utils/createMutex';
 import { ContextMonitor } from '../tools/ContextMonitor';
 import { createClipboardCommunicationStrategy } from './clipboard';
@@ -67,13 +67,9 @@ const isAllowedCommand = (commandName: string): boolean => {
 };
 
 export const registerCommands = async(): Promise<vscode.Disposable> => {
-  const context = {
-    hideError: false,
-    repeatLimit: 1000,
-    communicationStrategy: await createClipboardCommunicationStrategy(),
-  };
+  const conf = vscode.workspace.getConfiguration(configRootName);
 
-  await updateCommunicationStrategy();
+  const context = await createDefaultStrategyContext();
   vscode.workspace.onDidChangeConfiguration(async(e) => {
     await updateCommunicationStrategy(e);
   });
@@ -84,22 +80,54 @@ export const registerCommands = async(): Promise<vscode.Disposable> => {
 
   return {
     dispose: async(): Promise<void> => {
-      return context.communicationStrategy.close();
+      return context.communicationMethod.close();
     },
   };
 
+  async function createCommunicationStrategy(options: CommunicationStrategyOptions): Promise<CommunicationStrategy> {
+    if (options.method === 'clipboard') {
+      return createClipboardCommunicationStrategy();
+    }
+    return createServerCommunicationStrategy(options);
+  }
+  function normalizeCommunicationStrategyOptions(strategyNameOrOptions: string | CommunicationStrategyOptions): CommunicationStrategyOptions {
+    if (typeof strategyNameOrOptions === 'string') {
+      switch (strategyNameOrOptions) {
+        case 'clipboard': return defaultClipboardCommunicationStrategyOptions;
+        case 'server': return defaultServerCommunicationStrategyOptions;
+        default: break;
+      }
+    }
+    else {
+      switch (strategyNameOrOptions.method) {
+        case 'clipboard': return { ...defaultClipboardCommunicationStrategyOptions, ...strategyNameOrOptions };
+        case 'server': return { ...defaultServerCommunicationStrategyOptions, ...strategyNameOrOptions };
+        default: break;
+      }
+    }
+    return defaultServerCommunicationStrategyOptions;
+  }
+  async function createDefaultStrategyContext(): Promise<StrategyContext> {
+    const strategyNameOrOptions = conf.get<string | CommunicationStrategyOptions>('communicationMethod', 'server');
+    const communicationOptions = normalizeCommunicationStrategyOptions(strategyNameOrOptions);
+    const communicationMethod = await createCommunicationStrategy(communicationOptions);
+    return Promise.resolve({
+      hideError: false,
+      repeatLimit: 100,
+      communicationMethod,
+      communicationOptions,
+    });
+  }
   async function updateCommunicationStrategy(event?: vscode.ConfigurationChangeEvent): Promise<void> {
     return createMutex('updateCommunicationStrategy').use(async(): Promise<void> => {
-      const conf = vscode.workspace.getConfiguration(configRootName);
-      if (!event || event.affectsConfiguration(`${configRootName}.communicationStrategy`)) {
-        const strategyName = conf.get<string>('communicationStrategy', 'clipboard').toString();
-        switch (strategyName) {
+      if (!event || event.affectsConfiguration(`${configRootName}.communicationMethod`)) {
+        await context.communicationMethod.close();
+
+        const strategyNameOrOptions = conf.get<string | CommunicationStrategyOptions>('communicationMethod', 'server');
         // eslint-disable-next-line require-atomic-updates
-          case 'clipboard': context.communicationStrategy = await createClipboardCommunicationStrategy(); break;
-            // eslint-disable-next-line require-atomic-updates
-          case 'server': context.communicationStrategy = await createServerCommunicationStrategy({ port: 9001 }); break;
-          default: break;
-        }
+        context.communicationOptions = normalizeCommunicationStrategyOptions(strategyNameOrOptions);
+        // eslint-disable-next-line require-atomic-updates
+        context.communicationMethod = await createCommunicationStrategy(context.communicationOptions);
       }
       if (!event || event.affectsConfiguration(`${configRootName}.hideError`)) {
       // eslint-disable-next-line require-atomic-updates
@@ -116,7 +144,7 @@ export const registerCommands = async(): Promise<vscode.Disposable> => {
       async 'operate-from-autohotkey.executeCommand'(): Promise<void> {
         return createMutex('operate-from-autohotkey.executeCommand').use(async() => {
           try {
-            const requestCommandNames = await context.communicationStrategy.receiveRequest();
+            const requestCommandNames = await context.communicationMethod.receiveRequest();
 
             for await (const commandName of requestCommandNames.split(',')) {
               const parsedCommand = parseCommandText(commandName.trim());
@@ -151,88 +179,88 @@ export const registerCommands = async(): Promise<vscode.Disposable> => {
             }
           }
 
-          await context.communicationStrategy.complete();
+          await context.communicationMethod.complete();
         });
       },
       async 'operate-from-autohotkey.get.context.is.debugging'(): Promise<void> {
         const text = `${Number(contextMonitor.is.debugging)}`;
-        await context.communicationStrategy.complete(text);
+        await context.communicationMethod.complete(text);
       },
       async 'operate-from-autohotkey.get.context.caret'(): Promise<void> {
         const text = `${contextMonitor.caret.line}:${contextMonitor.caret.column}`;
-        await context.communicationStrategy.complete(text);
+        await context.communicationMethod.complete(text);
       },
       async 'operate-from-autohotkey.get.context.caret.line'(): Promise<void> {
         const text = `${contextMonitor.caret.line}`;
-        await context.communicationStrategy.complete(text);
+        await context.communicationMethod.complete(text);
       },
       async 'operate-from-autohotkey.get.context.caret.column'(): Promise<void> {
         const text = `${contextMonitor.caret.column}`;
-        await context.communicationStrategy.complete(text);
+        await context.communicationMethod.complete(text);
       },
       async 'operate-from-autohotkey.get.context.file'(): Promise<void> {
         const text = `${contextMonitor.fileInfo.path}:${contextMonitor.caret.line}:${contextMonitor.caret.column}`;
-        await context.communicationStrategy.complete(text);
+        await context.communicationMethod.complete(text);
       },
       async 'operate-from-autohotkey.get.context.file.path'(): Promise<void> {
         const text = `${contextMonitor.fileInfo.path}`;
-        await context.communicationStrategy.complete(text);
+        await context.communicationMethod.complete(text);
       },
       async 'operate-from-autohotkey.get.context.file.length'(): Promise<void> {
         const text = `${contextMonitor.fileInfo.length}`;
-        await context.communicationStrategy.complete(text);
+        await context.communicationMethod.complete(text);
       },
       async 'operate-from-autohotkey.get.context.file.eol'(): Promise<void> {
         const text = `${contextMonitor.fileInfo.eol}`;
-        await context.communicationStrategy.complete(text);
+        await context.communicationMethod.complete(text);
       },
       async 'operate-from-autohotkey.get.context.selection'(): Promise<void> {
         const text = `${contextMonitor.selection.start.line}:${contextMonitor.selection.start.column}:${contextMonitor.selection.end.line}:${contextMonitor.selection.end.column}`;
-        await context.communicationStrategy.complete(text);
+        await context.communicationMethod.complete(text);
       },
       async 'operate-from-autohotkey.get.context.selection.start'(): Promise<void> {
         const text = `${contextMonitor.selection.start.line}:${contextMonitor.selection.start.column}`;
-        await context.communicationStrategy.complete(text);
+        await context.communicationMethod.complete(text);
       },
       async 'operate-from-autohotkey.get.context.selection.start.line'(): Promise<void> {
         const text = `${contextMonitor.selection.start.line}`;
-        await context.communicationStrategy.complete(text);
+        await context.communicationMethod.complete(text);
       },
       async 'operate-from-autohotkey.get.context.selection.start.column'(): Promise<void> {
         const text = `${contextMonitor.selection.start.column}`;
-        await context.communicationStrategy.complete(text);
+        await context.communicationMethod.complete(text);
       },
       async 'operate-from-autohotkey.get.context.selection.end'(): Promise<void> {
         const text = `${contextMonitor.selection.end.line}:${contextMonitor.selection.end.column}`;
-        await context.communicationStrategy.complete(text);
+        await context.communicationMethod.complete(text);
       },
       async 'operate-from-autohotkey.get.context.selection.end.line'(): Promise<void> {
         const text = `${contextMonitor.selection.end.line}`;
-        await context.communicationStrategy.complete(text);
+        await context.communicationMethod.complete(text);
       },
       async 'operate-from-autohotkey.get.context.selection.end.column'(): Promise<void> {
         const text = `${contextMonitor.selection.end.column}`;
-        await context.communicationStrategy.complete(text);
+        await context.communicationMethod.complete(text);
       },
       async 'operate-from-autohotkey.get.context.selection.text'(): Promise<void> {
         const text = `${contextMonitor.selection.text}`;
-        await context.communicationStrategy.complete(text);
+        await context.communicationMethod.complete(text);
       },
       async 'operate-from-autohotkey.get.context.json'(): Promise<void> {
         const text = JSON.stringify(getContexts());
-        await context.communicationStrategy.complete(text);
+        await context.communicationMethod.complete(text);
       },
       async 'operate-from-autohotkey.get.context.json.pretty'(): Promise<void> {
         const text = JSON.stringify(getContexts(), null, 4);
-        await context.communicationStrategy.complete(text);
+        await context.communicationMethod.complete(text);
       },
       async 'operate-from-autohotkey.get.context.flattenJson'(): Promise<void> {
         const text = JSON.stringify(deepFlatten(getContexts()));
-        await context.communicationStrategy.complete(text);
+        await context.communicationMethod.complete(text);
       },
       async 'operate-from-autohotkey.get.context.flattenJson.pretty'(): Promise<void> {
         const text = JSON.stringify(deepFlatten(getContexts()), null, 4);
-        await context.communicationStrategy.complete(text);
+        await context.communicationMethod.complete(text);
       },
 
     };

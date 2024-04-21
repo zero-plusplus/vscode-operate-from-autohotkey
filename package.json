@@ -56,14 +56,53 @@
           "description": "Maximum number of times a command can be repeated at one time.",
           "default": 100
         },
-        "operate-from-autohotkey.communicationStrategy": {
-          "type": "string",
+        "operate-from-autohotkey.communicationMethod": {
           "description": "How to use it for communication.",
-          "enum": [
-            "clipboard",
-            "server"
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "const": "server"
+                },
+                "port": {
+                  "type": "integer",
+                  "default": 9001
+                },
+                "hostname": {
+                  "type": "string",
+                  "default": "127.0.0.1"
+                }
+              },
+              "required": [
+                "method"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "const": "clipboard"
+                }
+              },
+              "required": [
+                "method"
+              ]
+            },
+            {
+              "type": "string",
+              "enum": [
+                "server",
+                "clipboard"
+              ],
+              "default": "server"
+            }
           ],
-          "default": "clipboard"
+          "default": {
+            "method": "server",
+            "port": 9001,
+            "hostname": "127.0.0.1"
+          }
         }
       }
     },

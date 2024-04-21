@@ -1,8 +1,29 @@
 export interface StrategyContext {
   hideError: boolean;
   repeatLimit: number;
-  communicationStrategy: CommunicationStrategy;
+  communicationMethod: CommunicationStrategy;
+  communicationOptions: CommunicationStrategyOptions;
 }
+export type CommunicationStrategyOptions =
+  | ServerCommunicationStrategyOptions
+  | ClipboardCommunicationStrategyOptions;
+export interface ServerCommunicationStrategyOptions {
+  method: 'server';
+  port: number;
+  hostname: string;
+}
+export interface ClipboardCommunicationStrategyOptions {
+  method: 'clipboard';
+}
+export const defaultServerCommunicationStrategyOptions: ServerCommunicationStrategyOptions = {
+  method: 'server',
+  port: 9001,
+  hostname: '127.0.0.1',
+} as const;
+export const defaultClipboardCommunicationStrategyOptions: ClipboardCommunicationStrategyOptions = {
+  method: 'clipboard',
+} as const;
+
 export interface CommunicationStrategy {
   shouldSuspend: (currentCommand: string) => Promise<boolean>;
   complete: (text?: string) => Promise<void>;

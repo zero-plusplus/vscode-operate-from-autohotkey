@@ -64,9 +64,9 @@
     NumPut(DllCall("ws2_32\htons", "UShort", port, "UShort"), sockaddrIn, offset += SHORT_BYTE_SIZE, "UShort") ; https://learn.microsoft.com/en-us/windows/win32/api/winsock2/nf-winsock2-htons
     NumPut(DllCall("ws2_32\inet_addr", "AStr", hostname), sockaddrIn, offset += USHORT_BYTE_SIZE) ; https://learn.microsoft.com/en-us/windows/win32/api/winsock/nf-winsock-inet_addr
 
-    bindError := DllCall("ws2_32\connect", "Ptr", socket, "Ptr", &sockaddrIn, "Int", SOCKADDR_IN_BYTE_SIZE)
-    if (bindError != 0) {
-      throw Exception("bind error")
+    connectError := DllCall("ws2_32\connect", "Ptr", socket, "Ptr", &sockaddrIn, "Int", SOCKADDR_IN_BYTE_SIZE)
+    if (connectError != 0) {
+      throw Exception("connect error")
     }
 
     OnExit(Func("ExecuteVsCodeCommand_OnExit").bind(module, socket))
