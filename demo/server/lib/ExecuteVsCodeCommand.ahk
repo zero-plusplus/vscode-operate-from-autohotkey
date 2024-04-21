@@ -1,6 +1,6 @@
 ﻿ExecuteVsCodeCommand(commandName, config := "") {
   ; #region variables and constants
-  static DEFAULT_PORT := 9001, DEFUALT_HOSTNAME := "127.0.0.1", DEFAULT_TIMEOUT_MS := 1000, DEFAULT_RECIEVED_MAX_LENGTH := A_IsUnicode ? 4096 * 2 : 4096, DEFAULT_KEY := "+^!{F12}"
+  static DEFAULT_PORT := 9001, DEFUALT_HOSTNAME := "127.0.0.1", DEFAULT_TIMEOUT_MS := 1000, DEFAULLT_INTERVAL_MS := 50, DEFAULT_RECIEVED_MAX_LENGTH := A_IsUnicode ? 4096 * 2 : 4096, DEFAULT_KEY := "+^!{F12}"
   static NULL := 0, STRING_TYPE := A_IsUnicode ? "WStr" : "AStr"
   static module
        , socket       ; https://learn.microsoft.com/en-us/windows/win32/api/winsock2/nf-winsock2-socket
@@ -29,12 +29,19 @@
        , AF_INET := 2
        , SOCK_STREAM := 1
        , IPPROTO_TCP := 6
+       , FIONBIO := 0x8004667e
+  ; socket errors
+  static WSAEWOULDBLOCK := 10035
+
   ; #endregion variables and constants
+  isCritical_bk := A_IsCritical
+  Critical, On
 
   ; #region config
   port := config ? (config.port ? config.port : DEFAULT_PORT) : DEFAULT_PORT
   hostname := config ? (config.hostname ? config.hostname : DEFUALT_HOSTNAME) : DEFUALT_HOSTNAME
   timeout_ms := config ? (config.timeout_ms ? config.timeout_ms : DEFAULT_TIMEOUT_MS) : DEFAULT_TIMEOUT_MS
+  interval_ms := config ? (config.interval_ms ? config.interval_ms : DEFAULLT_INTERVAL_MS) : DEFAULLT_INTERVAL_MS
   recievedMaxLength := config ? (config.recievedMaxLength ? config.recievedMaxLength : DEFAULT_RECIEVED_MAX_LENGTH) : DEFAULT_RECIEVED_MAX_LENGTH
   key := config ? (config.key ? config.key : DEFAULT_KEY) : DEFAULT_KEY
   ; #endregion config
@@ -58,6 +65,10 @@
     }
 
     socket := DllCall("ws2_32\socket", "Int", AF_INET, "Int", SOCK_STREAM, "Int", IPPROTO_TCP)
+    ioctlsocketError := DllCall("ws2_32\ioctlsocket", "Ptr", socket, "Int", FIONBIO, "UInt*", 1)
+    if (ioctlsocketError != 0) {
+      throw Exception("ioctlsocket error")
+    }
 
     VarSetCapacity(sockaddrIn, SOCKADDR_IN_BYTE_SIZE, 0)
     NumPut(AF_INET, sockaddrIn, offset := 0, "UShort") ; sin_family
@@ -66,14 +77,16 @@
 
     connectError := DllCall("ws2_32\connect", "Ptr", socket, "Ptr", &sockaddrIn, "Int", SOCKADDR_IN_BYTE_SIZE)
     if (connectError != 0) {
-      throw Exception("Could not connect to the server; restarting current script may help.")
+      lastError := DllCall("ws2_32\WSAGetLastError")
+      if (lastError != WSAEWOULDBLOCK) {
+        throw Exception("Could not connect to the server; restarting current script may help.")
+      }
     }
 
     OnExit(Func("ExecuteVsCodeCommand_OnExit").bind(module, socket))
     initialized := true
   }
   ; #endregion initialize
-
   ; #region main process
   ; https://learn.microsoft.com/en-us/windows/win32/api/winsock2/nf-winsock2-send
   sentBytes := DllCall("ws2_32\send", "Ptr", socket, "AStr", commandName, "Int", StrLen(commandName), "Int", NULL)
@@ -83,10 +96,24 @@
   SendInput, %key%
 
   VarSetCapacity(response, recievedMaxLength)
-  bytesReceived := DllCall("ws2_32\recv", "Ptr", socket, "Ptr", &response, "Int", recievedMaxLength, "Int", NULL)
-  recievedMessage := StrGet(&response, recievedMaxLength, A_IsUnicode ? "UTF-8" : "CP0")
+  startTime_ms := A_TickCount
+  while (true) {
+    elapsedTime_ms := A_TickCount - startTime_ms
+    if (timeout_ms < elapsedTime_ms) {
+      recievedMessage := ""
+      break
+    }
+
+    bytesReceived := DllCall("ws2_32\recv", "Ptr", socket, "Ptr", &response, "Int", recievedMaxLength, "Int", NULL)
+    if (0 < bytesReceived) {
+      recievedMessage := StrGet(&response, recievedMaxLength, A_IsUnicode ? "UTF-8" : "CP0")
+      break
+    }
+    Sleep, %interval_ms%
+  }
   ; #endregion main process
 
+  Critical, %isCritical_bk%
   return recievedMessage
 }
 ExecuteVsCodeCommand_OnExit(module, socket) {
@@ -98,4 +125,3 @@ ExecuteVsCodeCommand_OnExit(module, socket) {
   DllCall("Ws2_32\WSACleanup")
   DllCall("FreeLibrary", "Ptr", module)
 }
-
