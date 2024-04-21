@@ -66,7 +66,6 @@ const isAllowedCommand = (commandName: string): boolean => {
   return false;
 };
 
-
 export const registerCommands = async(): Promise<vscode.Disposable> => {
   const context = {
     hideError: false,
@@ -79,14 +78,8 @@ export const registerCommands = async(): Promise<vscode.Disposable> => {
     await updateCommunicationStrategy(e);
   });
 
-  const mutex = createMutex(configRootName);
-
   for (const [ commandName, command ] of Object.entries(createCommands(context))) {
-    vscode.commands.registerCommand(commandName, async() => {
-      return mutex.use(async(): Promise<void> => {
-        await command();
-      });
-    });
+    vscode.commands.registerCommand(commandName, command);
   }
 
   return {
