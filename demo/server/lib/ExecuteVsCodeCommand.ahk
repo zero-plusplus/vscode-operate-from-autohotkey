@@ -1,6 +1,6 @@
 ﻿ExecuteVsCodeCommand(commandName, config := "") {
   ; #region variables and constants
-  static DEFAULT_PORT := 9001, DEFUALT_HOSTNAME := "127.0.0.1", DEFAULT_TIMEOUT_MS := 1000, DEFAULT_RECIEVED_MAX_LENGTH := A_IsUnicode ? 4096 * 2 : 4096
+  static DEFAULT_PORT := 9001, DEFUALT_HOSTNAME := "127.0.0.1", DEFAULT_TIMEOUT_MS := 1000, DEFAULT_RECIEVED_MAX_LENGTH := A_IsUnicode ? 4096 * 2 : 4096, DEFAULT_KEY := "+^!{F12}"
   static NULL := 0, STRING_TYPE := A_IsUnicode ? "WStr" : "AStr"
   static module
        , socket       ; https://learn.microsoft.com/en-us/windows/win32/api/winsock2/nf-winsock2-socket
@@ -36,6 +36,7 @@
   hostname := config ? (config.hostname ? config.hostname : DEFUALT_HOSTNAME) : DEFUALT_HOSTNAME
   timeout_ms := config ? (config.timeout_ms ? config.timeout_ms : DEFAULT_TIMEOUT_MS) : DEFAULT_TIMEOUT_MS
   recievedMaxLength := config ? (config.recievedMaxLength ? config.recievedMaxLength : DEFAULT_RECIEVED_MAX_LENGTH) : DEFAULT_RECIEVED_MAX_LENGTH
+  key := config ? (config.key ? config.key : DEFAULT_KEY) : DEFAULT_KEY
   ; #endregion config
 
   ; #region initialize
@@ -76,10 +77,10 @@
   ; #region main process
   ; https://learn.microsoft.com/en-us/windows/win32/api/winsock2/nf-winsock2-send
   sentBytes := DllCall("ws2_32\send", "Ptr", socket, "AStr", commandName, "Int", StrLen(commandName), "Int", NULL)
-  e := DllCall("ws2_32\WSAGetLastError")
   if (sentBytes < 0) {
     throw Exception("send error")
   }
+  SendInput, %key%
 
   VarSetCapacity(response, recievedMaxLength)
   bytesReceived := DllCall("ws2_32\recv", "Ptr", socket, "Ptr", &response, "Int", recievedMaxLength, "Int", NULL)
@@ -89,6 +90,10 @@
   return recievedMessage
 }
 ExecuteVsCodeCommand_OnExit(module, socket) {
+  ; https://learn.microsoft.com/en-us/windows/win32/api/winsock2/nf-winsock2-shutdown
+  static SD_SEND := 2
+
+  DllCall("ws2_32\shutdown", "ptr", socket, "Int", SD_SEND)
   DllCall("ws2_32\closesocket", "ptr", socket)
   DllCall("Ws2_32\WSACleanup")
   DllCall("FreeLibrary", "Ptr", module)
