@@ -66,7 +66,7 @@
 
     connectError := DllCall("ws2_32\connect", "Ptr", socket, "Ptr", &sockaddrIn, "Int", SOCKADDR_IN_BYTE_SIZE)
     if (connectError != 0) {
-      throw Exception("connect error")
+      throw Exception("Could not connect to the server; restarting current script may help.")
     }
 
     OnExit(Func("ExecuteVsCodeCommand_OnExit").bind(module, socket))
