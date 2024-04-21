@@ -1,8 +1,8 @@
 import { withResolvers } from '../tools/utils/withResolvers';
-import { CommunicationStrategy } from '../types/strategy/common.types';
+import { CommunicationStrategy, ServerCommunicationStrategyOptions } from '../types/strategy/common.types';
 import { Socket, createServer } from 'net';
 
-export const createServerCommunicationStrategy = async({ port = 9001, hostname = '127.0.0.1' }: Record<string, any>): Promise<CommunicationStrategy> => {
+export const createServerCommunicationStrategy = async({ port = 9001, hostname = '127.0.0.1' }: ServerCommunicationStrategyOptions): Promise<CommunicationStrategy> => {
   if (typeof port !== 'number') {
     throw Error('No port is specified.');
   }
@@ -10,17 +10,22 @@ export const createServerCommunicationStrategy = async({ port = 9001, hostname =
     throw Error('No hostname is specified.');
   }
 
-  const requests: string[] = [];
+  let socketInitialized = false;
   let socketResolvers = withResolvers<Socket>();
+  let requestInitialized = false;
   let requestResolvers = withResolvers<string>();
   return new Promise((resolve) => {
     const server = createServer();
     server.on('connection', (socket) => {
+      socketInitialized = true;
       socketResolvers.resolve(socket);
       socket.on('data', (request: Buffer) => {
+        requestInitialized = true;
         requestResolvers.resolve(String(request));
       });
       socket.on('close', () => {
+        socketInitialized = false;
+        requestInitialized = false;
         socketResolvers = withResolvers<Socket>();
         requestResolvers = withResolvers<string>();
       });
@@ -28,12 +33,19 @@ export const createServerCommunicationStrategy = async({ port = 9001, hostname =
     server.listen(port, hostname, () => {
       resolve({
         shouldSuspend: async(currentCommand: string): Promise<boolean> => {
-          if (0 < requests.length) {
-            return Promise.resolve(currentCommand.toLowerCase() === requests[0].toLowerCase());
+          if (!requestInitialized) {
+            return false;
           }
-          return false;
+
+          return requestResolvers.promise.then((request) => {
+            return currentCommand.toLowerCase() === request.toLowerCase();
+          });
         },
         complete: async(text?: string): Promise<void> => {
+          if (!socketInitialized) {
+            return Promise.resolve();
+          }
+
           return socketResolvers.promise.then(async(socket) => {
             return new Promise((resolve, rejects) => {
               socket.write(`${text ?? ''}\0`, (err) => {
@@ -47,17 +59,31 @@ export const createServerCommunicationStrategy = async({ port = 9001, hostname =
           });
         },
         receiveRequest: async(): Promise<string> => {
+          if (!requestInitialized) {
+            return Promise.resolve('');
+          }
+
           return requestResolvers.promise.then((request) => {
             requestResolvers = withResolvers<string>();
             return request;
           });
         },
         close: async(): Promise<void> => {
+          if (!socketInitialized) {
+            return new Promise((resolve) => {
+              server.close(() => {
+                resolve();
+              });
+            });
+          }
+
           return socketResolvers.promise.then(async(socket) => {
             return new Promise((resolve) => {
               socket.end(() => {
                 socket.destroy();
-                resolve();
+                server.close(() => {
+                  resolve();
+                });
               });
             });
           });
