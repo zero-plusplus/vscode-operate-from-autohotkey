@@ -20,13 +20,15 @@ GetCaretRect(hwnd := "") {
        , BYREF_INT32 := VT_BYREF + VT_I4
   ; Winuser.h
   static OBJID_CARET := 0xFFFFFFF8
+  ; oleacc.h
+  static IID_IAccessible_GUID := "{618736e0-3c3d-11cf-810c-00aa00389b71}"
   ; data type bytes
   static CLSID_BYTE_SIZE := 16
   ; #endregion variables and constants
 
   ; #region initialize
   if (!initialize) {
-    module := DllCall("LoadLibrary", "Str", "Oleacc", "Ptr")
+    module := DllCall("LoadLibrary", "Str", "oleacc", "Ptr")
     OnExit(Func("GetCaretCoordinates_OnExit").bind(module))
 
     initialize := true
@@ -38,7 +40,7 @@ GetCaretRect(hwnd := "") {
     hwnd := hwnd == "" ? WinActive("A") : hwnd
 
     VarSetCapacity(IID_IAccessible, CLSID_BYTE_SIZE)
-    DllCall("ole32\CLSIDFromString", "WStr", "{618736e0-3c3d-11cf-810c-00aa00389b71}", "Ptr", &IID_IAccessible)                 ; https://learn.microsoft.com/en-us/windows/win32/api/combaseapi/nf-combaseapi-clsidfromstring
+    DllCall("ole32\CLSIDFromString", "WStr", IID_IAccessible_GUID, "Ptr", &IID_IAccessible)                                     ; https://learn.microsoft.com/en-us/windows/win32/api/combaseapi/nf-combaseapi-clsidfromstring
     DllCall("oleacc\AccessibleObjectFromWindow", "Ptr", hwnd, "UInt", OBJID_CARET, "Ptr", &IID_IAccessible, "Ptr*", ppvObject)  ; https://learn.microsoft.com/en-us/windows/win32/api/oleacc/nf-oleacc-accessibleobjectfromwindow
 
     _x := ComObject(BYREF_INT32, &_x := 0)
