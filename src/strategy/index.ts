@@ -1,9 +1,8 @@
 import * as vscode from 'vscode';
 import { deepFlatten } from '../tools/utils/deepFlatten';
-import { CommandName, Commands, StrategyContext, commandNameList } from '../types/strategy/common.types';
+import { Commands, SendCommandName, StrategyContext, sendCommandNameList } from '../types/strategy/common.types';
 import { createMutex } from '../tools/utils/createMutex';
 import { ContextMonitor } from '../tools/ContextMonitor';
-import { getCaretCoordinates } from '../tools/utils/getCaretCoordinates';
 import { createClipboardCommunicationStrategy } from './clipboard';
 import { range } from '../tools/utils/range';
 import { configRootName } from '../constant';
@@ -13,12 +12,9 @@ import { createServerCommunicationStrategy } from './server';
 const contextMonitor = new ContextMonitor().start();
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const getContexts = async() => {
+const getContexts = () => {
   return {
-    caret: {
-      ...contextMonitor.caret,
-      coordinates: await getCaretCoordinates(),
-    },
+    caret: contextMonitor.caret,
     selections: contextMonitor.selections,
     selection: contextMonitor.selections[0],
     file: { ...contextMonitor.fileInfo },
@@ -165,99 +161,84 @@ export const registerCommands = async(): Promise<vscode.Disposable> => {
           await context.communicationStrategy.complete();
         });
       },
-      async 'operate-from-autohotkey.copy.context.is.debugging'(): Promise<void> {
+      async 'operate-from-autohotkey.get.context.is.debugging'(): Promise<void> {
         const text = `${Number(contextMonitor.is.debugging)}`;
         await context.communicationStrategy.complete(text);
       },
-      async 'operate-from-autohotkey.copy.context.caret'(): Promise<void> {
+      async 'operate-from-autohotkey.get.context.caret'(): Promise<void> {
         const text = `${contextMonitor.caret.line}:${contextMonitor.caret.column}`;
         await context.communicationStrategy.complete(text);
       },
-      async 'operate-from-autohotkey.copy.context.caret.line'(): Promise<void> {
+      async 'operate-from-autohotkey.get.context.caret.line'(): Promise<void> {
         const text = `${contextMonitor.caret.line}`;
         await context.communicationStrategy.complete(text);
       },
-      async 'operate-from-autohotkey.copy.context.caret.column'(): Promise<void> {
+      async 'operate-from-autohotkey.get.context.caret.column'(): Promise<void> {
         const text = `${contextMonitor.caret.column}`;
         await context.communicationStrategy.complete(text);
       },
-      async 'operate-from-autohotkey.copy.context.caret.coordinates'(): Promise<void> {
-        const coordinates = await getCaretCoordinates();
-        const text = `${coordinates.x},${coordinates.y}`;
-        await context.communicationStrategy.complete(text);
-      },
-      async 'operate-from-autohotkey.copy.context.caret.coordinates.x'(): Promise<void> {
-        const coordinates = await getCaretCoordinates();
-        const text = String(coordinates.x);
-        await context.communicationStrategy.complete(text);
-      },
-      async 'operate-from-autohotkey.copy.context.caret.coordinates.y'(): Promise<void> {
-        const coordinates = await getCaretCoordinates();
-        const text = String(coordinates.y);
-        await context.communicationStrategy.complete(text);
-      },
-      async 'operate-from-autohotkey.copy.context.file'(): Promise<void> {
+      async 'operate-from-autohotkey.get.context.file'(): Promise<void> {
         const text = `${contextMonitor.fileInfo.path}:${contextMonitor.caret.line}:${contextMonitor.caret.column}`;
         await context.communicationStrategy.complete(text);
       },
-      async 'operate-from-autohotkey.copy.context.file.path'(): Promise<void> {
+      async 'operate-from-autohotkey.get.context.file.path'(): Promise<void> {
         const text = `${contextMonitor.fileInfo.path}`;
         await context.communicationStrategy.complete(text);
       },
-      async 'operate-from-autohotkey.copy.context.file.length'(): Promise<void> {
+      async 'operate-from-autohotkey.get.context.file.length'(): Promise<void> {
         const text = `${contextMonitor.fileInfo.length}`;
         await context.communicationStrategy.complete(text);
       },
-      async 'operate-from-autohotkey.copy.context.file.eol'(): Promise<void> {
+      async 'operate-from-autohotkey.get.context.file.eol'(): Promise<void> {
         const text = `${contextMonitor.fileInfo.eol}`;
         await context.communicationStrategy.complete(text);
       },
-      async 'operate-from-autohotkey.copy.context.selection'(): Promise<void> {
+      async 'operate-from-autohotkey.get.context.selection'(): Promise<void> {
         const text = `${contextMonitor.selection.start.line}:${contextMonitor.selection.start.column}:${contextMonitor.selection.end.line}:${contextMonitor.selection.end.column}`;
         await context.communicationStrategy.complete(text);
       },
-      async 'operate-from-autohotkey.copy.context.selection.start'(): Promise<void> {
+      async 'operate-from-autohotkey.get.context.selection.start'(): Promise<void> {
         const text = `${contextMonitor.selection.start.line}:${contextMonitor.selection.start.column}`;
         await context.communicationStrategy.complete(text);
       },
-      async 'operate-from-autohotkey.copy.context.selection.start.line'(): Promise<void> {
+      async 'operate-from-autohotkey.get.context.selection.start.line'(): Promise<void> {
         const text = `${contextMonitor.selection.start.line}`;
         await context.communicationStrategy.complete(text);
       },
-      async 'operate-from-autohotkey.copy.context.selection.start.column'(): Promise<void> {
+      async 'operate-from-autohotkey.get.context.selection.start.column'(): Promise<void> {
         const text = `${contextMonitor.selection.start.column}`;
         await context.communicationStrategy.complete(text);
       },
-      async 'operate-from-autohotkey.copy.context.selection.end'(): Promise<void> {
+      async 'operate-from-autohotkey.get.context.selection.end'(): Promise<void> {
         const text = `${contextMonitor.selection.end.line}:${contextMonitor.selection.end.column}`;
         await context.communicationStrategy.complete(text);
       },
-      async 'operate-from-autohotkey.copy.context.selection.end.line'(): Promise<void> {
+      async 'operate-from-autohotkey.get.context.selection.end.line'(): Promise<void> {
         const text = `${contextMonitor.selection.end.line}`;
         await context.communicationStrategy.complete(text);
       },
-      async 'operate-from-autohotkey.copy.context.selection.end.column'(): Promise<void> {
+      async 'operate-from-autohotkey.get.context.selection.end.column'(): Promise<void> {
         const text = `${contextMonitor.selection.end.column}`;
         await context.communicationStrategy.complete(text);
       },
-      async 'operate-from-autohotkey.copy.context.selection.text'(): Promise<void> {
+      async 'operate-from-autohotkey.get.context.selection.text'(): Promise<void> {
         const text = `${contextMonitor.selection.text}`;
         await context.communicationStrategy.complete(text);
       },
-      async 'operate-from-autohotkey.copy.context.json'(): Promise<void> {
-        const text = JSON.stringify(await getContexts());
+      async 'operate-from-autohotkey.get.context.json'(): Promise<void> {
+        const text = JSON.stringify(getContexts());
         await context.communicationStrategy.complete(text);
       },
-      async 'operate-from-autohotkey.copy.context.json.pretty'(): Promise<void> {
-        const text = JSON.stringify(await getContexts(), null, 4);
+      async 'operate-from-autohotkey.get.context.json.pretty'(): Promise<void> {
+        const text = JSON.stringify(getContexts(), null, 4);
         await context.communicationStrategy.complete(text);
       },
-      async 'operate-from-autohotkey.copy.context.flattenJson'(): Promise<void> {
-        const text = JSON.stringify(deepFlatten(await getContexts()));
+      async 'operate-from-autohotkey.get.context.flattenJson'(): Promise<void> {
+        const text = JSON.stringify(deepFlatten(getContexts()));
         await context.communicationStrategy.complete(text);
       },
-      async 'operate-from-autohotkey.copy.context.flattenJson.pretty'(): Promise<void> {
-        const text = JSON.stringify(deepFlatten(await getContexts()), null, 4);
+      async 'operate-from-autohotkey.get.context.flattenJson.pretty'(): Promise<void> {
+        const text = JSON.stringify(deepFlatten(getContexts()), null, 4);
         await context.communicationStrategy.complete(text);
       },
 
