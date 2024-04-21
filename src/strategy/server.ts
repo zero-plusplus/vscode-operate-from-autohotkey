@@ -9,28 +9,37 @@ export const createServerCommunicationStrategy = async({ port = 9001, hostname =
     throw Error('No hostname is specified.');
   }
 
-  let requests: string[];
-  let socket: Socket;
+  const requests: string[] = [];
+  const socketResolvers = (<T extends Socket>(): { resolve: (value: T) => void; reject: (err?: Error) => void; promise: Promise<T> } => {
+    return Promise.withResolvers();
+  })();
+  let initialized = false;
   return new Promise((resolve) => {
-    createServer((_socket) => {
-      socket = _socket;
+    createServer((socket) => {
+      initialized = true;
       socket.on('data', (request: Buffer) => {
         const request_str = String(request);
         requests.push(request_str);
       });
+      socketResolvers.resolve(socket);
     }).listen(port, hostname, () => {
       resolve({
         shouldSuspend: async(currentCommand: string): Promise<boolean> => {
-          return Promise.resolve(currentCommand.toLowerCase() === requests[0].toLowerCase());
+          if (0 < requests.length) {
+            return Promise.resolve(currentCommand.toLowerCase() === requests[0].toLowerCase());
+          }
+          return false;
         },
         complete: async(text?: string): Promise<void> => {
-          return new Promise((resolve, rejects) => {
-            socket.write(`${text ?? ''}\0`, (err) => {
-              if (err) {
-                rejects(err);
-                return;
-              }
-              resolve();
+          return socketResolvers.promise.then(async(socket) => {
+            return new Promise((resolve, rejects) => {
+              socket.write(`${text ?? ''}\0`, (err) => {
+                if (err) {
+                  rejects(err);
+                  return;
+                }
+                resolve();
+              });
             });
           });
         },
@@ -38,10 +47,16 @@ export const createServerCommunicationStrategy = async({ port = 9001, hostname =
           return Promise.resolve(requests.shift() ?? '');
         },
         close: async(): Promise<void> => {
-          return new Promise((resolve) => {
-            socket.end(() => {
-              socket.destroy();
-              resolve();
+          if (!initialized) {
+            return Promise.resolve();
+          }
+
+          return socketResolvers.promise.then(async(socket) => {
+            return new Promise((resolve) => {
+              socket.end(() => {
+                socket.destroy();
+                resolve();
+              });
             });
           });
         },

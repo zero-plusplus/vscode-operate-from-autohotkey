@@ -125,48 +125,45 @@ export const registerCommands = async(): Promise<vscode.Disposable> => {
   function createCommands(context: StrategyContext): Commands {
     const commands: Commands = {
       async 'operate-from-autohotkey.executeCommand'(): Promise<void> {
-        try {
-          const requestCommandNames = await context.communicationStrategy.receiveRequest();
+        return createMutex('operate-from-autohotkey.executeCommand').use(async() => {
+          try {
+            const requestCommandNames = await context.communicationStrategy.receiveRequest();
 
-          for await (const commandName of requestCommandNames.split(',')) {
-            const parsedCommand = parseCommandText(commandName.trim());
-            if (!parsedCommand) {
-              continue;
-            }
-
-            // Do not execute commands that are not allowed
-            if (!isAllowedCommand(parsedCommand.name)) {
-              throw Error(`'${parsedCommand.name}' is not allowed command. Abort the commands.`);
-            }
-
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            for await (const _ of range(clamp(parsedCommand.repeatCount, 1, context.repeatLimit))) {
-              if (commandNameList.includes(parsedCommand.name as CommandName)) {
-                await commands[parsedCommand.name as CommandName]();
+            for await (const commandName of requestCommandNames.split(',')) {
+              const parsedCommand = parseCommandText(commandName.trim());
+              if (!parsedCommand) {
+                continue;
               }
-              else {
+
+              // Do not execute commands that are not allowed
+              if (!isAllowedCommand(parsedCommand.name)) {
+                throw Error(`'${parsedCommand.name}' is not allowed command. Abort the commands.`);
+              }
+
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
+              for await (const _ of range(clamp(parsedCommand.repeatCount, 1, context.repeatLimit))) {
+                // This command itself is not processed.
+                if (parsedCommand.name.toLowerCase() === 'operate-from-autohotkey.executeCommand') {
+                  continue;
+                }
+
+                if (sendCommandNameList.includes(parsedCommand.name as SendCommandName)) {
+                  await commands[parsedCommand.name as SendCommandName]();
+                  return;
+                }
+
                 await vscode.commands.executeCommand(parsedCommand.name);
               }
-
-              // A command beginning with the following prefix is not meant to be executed more than once
-              if (parsedCommand.name.toLowerCase().startsWith('operate-from-autohotkey.copy.')) {
-                return;
-              }
-
-              // Suspend if another request is occurring
-              if (await context.communicationStrategy.shouldSuspend(parseCommandText.name)) {
-                return;
-              }
             }
           }
-        }
-        catch (error: unknown) {
-          if (!context.hideError) {
-            throw error;
+          catch (error: unknown) {
+            if (!context.hideError) {
+              throw error;
+            }
           }
-        }
 
-        await context.communicationStrategy.complete();
+          await context.communicationStrategy.complete();
+        });
       },
       async 'operate-from-autohotkey.copy.context.is.debugging'(): Promise<void> {
         const text = `${Number(contextMonitor.is.debugging)}`;
