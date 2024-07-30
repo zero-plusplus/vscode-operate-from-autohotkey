@@ -1,6 +1,6 @@
 ﻿#Requires AutoHotkey v1.1.33+
 /**
- * @auther zero-plusplus
+ * @author zero-plusplus
  * @license MIT
  * @see https://github.com/zero-plusplus/vscode-operate-from-autohotkey
  */
