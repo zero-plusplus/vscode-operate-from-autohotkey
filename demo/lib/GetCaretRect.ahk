@@ -29,7 +29,7 @@ GetCaretRect(hwnd := "") {
   ; #region initialize
   if (!initialize) {
     module := DllCall("LoadLibrary", "Str", "oleacc", "Ptr")
-    OnExit(Func("GetCaretCoordinates_OnExit").bind(module))
+    OnExit(Func("GetCaretRect_OnExit").bind(module))
 
     initialize := true
   }
@@ -65,6 +65,6 @@ GetCaretRect(hwnd := "") {
   }
   ; #endregion main process
 }
-GetCaretCoordinates_OnExit(module) {
+GetCaretRect_OnExit(module) {
   DllCall("FreeLibrary", "Ptr", module)
 }
